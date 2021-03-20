@@ -36,13 +36,16 @@ export default class Game extends Component {
   constructor() {
     super();
   }
+  generateSpheres(n){
+    return [...Array(n)].map((x,i)=>
+        <Sphere key={i}/>
+        );
+  }
   render() {
     return (
       <ViroARScene>
         <ViroAmbientLight color={"#fff"}/>
-            <Sphere/>
-            <Sphere/>
-            <Sphere/>
+            {this.generateSpheres(4)}
       </ViroARScene>
     );
   }
