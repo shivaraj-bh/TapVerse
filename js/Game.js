@@ -8,6 +8,30 @@ import {
   ViroAnimations,
   ViroSphere
 } from 'react-viro';
+class Sphere extends Component{
+  constructor(){
+    super();
+  }
+  randomSign(){
+    let sign = Math.floor(Math.random()*2);
+    return sign;
+  }
+  generateRandom(){
+    let sign = this.randomSign();
+    if(sign==0)return Math.random();
+    return -Math.random();
+  }
+  render(){
+    return(
+      <ViroSphere
+        position={[this.generateRandom(),this.generateRandom(),-0.7]}
+        scale={[0.15,0.15,0.15]}
+        materials={["ball"]}
+        animation={{name:"animateImage",run:true,loop:true}}
+      />
+    );
+  }
+}
 export default class Game extends Component {
   constructor() {
     super();
@@ -16,12 +40,9 @@ export default class Game extends Component {
     return (
       <ViroARScene>
         <ViroAmbientLight color={"#fff"}/>
-            <ViroSphere
-              position={[0,-0.5,-0.7]}
-              scale={[0.15,0.15,0.15]}
-              materials={["ball"]}
-              animation={{name:"animateImage",run:true,loop:true}}
-            />
+            <Sphere/>
+            <Sphere/>
+            <Sphere/>
       </ViroARScene>
     );
   }
