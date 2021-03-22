@@ -9,9 +9,13 @@ import {
   ViroSphere
 } from 'react-viro';
 class Sphere extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+    this.anims = {defaultAnim:{name:"animateImage",run:true,loop:true},
+    leaveAnim:{name:"exitAnim",run:true}}
+    this.state = {anim:this.anims.defaultAnim};
   }
+  
   randomSign(){
     let sign = Math.floor(Math.random()*2);
     return sign;
@@ -27,7 +31,9 @@ class Sphere extends Component{
         position={[this.generateRandom(),this.generateRandom(),-0.7]}
         scale={[0.15,0.15,0.15]}
         materials={["ball"]}
-        animation={{name:"animateImage",run:true,loop:true}}
+        animation={this.state.anim}
+        onClick={()=>{this.setState({anim:this.anims.leaveAnim});
+                      console.log("Yeaaaaa");}}
       />
     );
   }
@@ -42,6 +48,7 @@ export default class Game extends Component {
         );
   }
   render() {
+    console.log("Rendering");
     return (
       <ViroARScene>
         <ViroAmbientLight color={"#fff"}/>
@@ -63,5 +70,9 @@ ViroMaterials.createMaterials({
 ViroAnimations.registerAnimations({
   animateImage:{properties:{rotateZ:"+=10",rotateX:"+=60",rotateY:"+=30"}, 
   duration: 200},
+  exitAnim: {
+    properties:{scaleX:"-=0.05",scaleY:"-=0.05",scaleZ:"-=0.005"},
+    duration:1000
+  }
 });
 module.exports = Game;
