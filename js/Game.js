@@ -12,10 +12,14 @@ class Sphere extends Component{
   constructor(props){
     super(props);
     this.anims = {defaultAnim:{name:"animateImage",run:true,loop:true},
-    leaveAnim:{name:"exitAnim",run:true}}
+    leaveAnim:{name:"exitAnim",run:true,onFinish:function(){
+      console.log("Animation finished");
+    }}};
     this.state = {anim:this.anims.defaultAnim};
   }
-  
+  _onAnimationFinished(){
+    console.log("animation finished");
+  }
   randomSign(){
     let sign = Math.floor(Math.random()*2);
     return sign;
@@ -34,6 +38,7 @@ class Sphere extends Component{
         animation={this.state.anim}
         onClick={()=>{this.setState({anim:this.anims.leaveAnim});
                       console.log("Yeaaaaa");}}
+        
       />
     );
   }

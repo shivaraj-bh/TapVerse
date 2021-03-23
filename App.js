@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 
 import {
-  ViroARSceneNavigator
+  ViroARSceneNavigator,
+  Viro3DSceneNavigator
 } from 'react-viro';
 
 var InitialARScene = require('./js/Game');
