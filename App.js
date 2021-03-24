@@ -14,12 +14,12 @@ import {
   ViroVRSceneNavigator
 } from 'react-viro';
 
+import CountDown from 'react-native-countdown-component';
 var InitialARScene = require('./js/Game');
 var UNSET = "UNSET";
 var AR_NAVIGATOR_TYPE = "AR";
 
 var defaultNavigatorType = UNSET;
-
 export default class App extends Component {
   constructor() {
     super();
@@ -38,7 +38,24 @@ export default class App extends Component {
     if (this.state.navigatorType == UNSET) {
       return this._getExperienceSelector();
     } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
-      return this._getARNavigator();
+      return (
+        <View style={{flex:1}}>
+          {this._getARNavigator()}
+          <View style={localStyles.timer}>
+            <CountDown
+                size={20}
+                until={120}
+                onFinish={() => alert('Finished')}
+                digitStyle={{backgroundColor: '#FFF', borderWidth: 2, borderColor: '#1CC625'}}
+                digitTxtStyle={{color: '#1CC625'}}
+                timeLabelStyle={{color: 'red', fontWeight: 'bold'}}
+                separatorStyle={{color: '#1CC625'}}
+                timeToShow={['M', 'S']}
+                timeLabels={{m: null, s: null}}
+                showSeparator/>
+          </View>
+        </View>
+      )
     }
   }
   _getExperienceSelector() {
@@ -82,6 +99,9 @@ export default class App extends Component {
   }
 }
 var localStyles = StyleSheet.create({
+  timer:{
+    position: 'absolute',
+  },
   viroContainer :{
     flex : 1,
     backgroundColor: "black",

@@ -1,20 +1,16 @@
 'use strict';
-
 import React, { Component } from 'react';
 import {
-  ViroARScene,
   ViroScene,
   ViroMaterials,
   ViroAmbientLight,
-  ViroAnimations,
   ViroSphere,
-  Viro360Image,
   ViroSkyBox,
-  ViroSpotLight,
-  ViroController,
   ViroNode,
-  ViroSound
+  ViroSound,
+  ViroCamera
 } from 'react-viro';
+var score = 0;
 class Sphere extends Component{
   constructor(props){
     super(props);
@@ -33,6 +29,7 @@ class Sphere extends Component{
  }
   _LeaveAnim(){
     this.setState({isPaused:false});
+    score+=1;
   }
   render(){
     return(
@@ -53,6 +50,7 @@ class Sphere extends Component{
 }
 export default class Game extends Component {
   constructor() {
+    score = 0;
     super();
   }
   generateSpheres(n){
