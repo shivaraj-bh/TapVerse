@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import {
   ViroARScene,
+  ViroScene,
   ViroMaterials,
   ViroAmbientLight,
   ViroAnimations,
@@ -11,14 +12,15 @@ import {
 class Sphere extends Component{
   constructor(props){
     super(props);
-    this.anims = {defaultAnim:{name:"animateImage",run:true,loop:true},
-    leaveAnim:{name:"exitAnim",run:true,onFinish:function(){
-      console.log("Animation finished");
-    }}};
+    this.anims = {defaultAnim:{},leaveAnim:{}};
+    this.anims.defaultAnim.name = "animateImage";
+    this.anims.defaultAnim.run = true;
+    this.anims.defaultAnim.loop = true;
+    this.anims.leaveAnim.name = "exitAnim";
+    this.anims.leaveAnim.run = true;
+    this.anims.leaveAnim.onFinish = ()=> {this.setState({anim:this.anims.defaultAnim});
+                                          console.log("Animation finished");}
     this.state = {anim:this.anims.defaultAnim};
-  }
-  _onAnimationFinished(){
-    console.log("animation finished");
   }
   randomSign(){
     let sign = Math.floor(Math.random()*2);
@@ -55,10 +57,10 @@ export default class Game extends Component {
   render() {
     console.log("Rendering");
     return (
-      <ViroARScene>
+      <ViroScene>
         <ViroAmbientLight color={"#fff"}/>
-            {this.generateSpheres(4)}
-      </ViroARScene>
+            {this.generateSpheres(2)}
+      </ViroScene>
     );
   }
 
@@ -77,7 +79,7 @@ ViroAnimations.registerAnimations({
   duration: 200},
   exitAnim: {
     properties:{scaleX:"-=0.05",scaleY:"-=0.05",scaleZ:"-=0.005"},
-    duration:1000
+    duration:100
   }
 });
 module.exports = Game;

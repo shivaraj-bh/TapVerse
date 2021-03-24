@@ -10,7 +10,8 @@ import {
 
 import {
   ViroARSceneNavigator,
-  Viro3DSceneNavigator
+  Viro3DSceneNavigator,
+  ViroVRSceneNavigator
 } from 'react-viro';
 
 var InitialARScene = require('./js/Game');
@@ -62,8 +63,9 @@ export default class App extends Component {
   }
   _getARNavigator() {
     return (
-      <ViroARSceneNavigator
-        initialScene={{scene: InitialARScene}} />
+      <ViroVRSceneNavigator
+        initialScene={{scene: InitialARScene}}
+        vrModeEnabled={false}/>
     );
   }
   _getExperienceButtonOnPress(navigatorType) {
