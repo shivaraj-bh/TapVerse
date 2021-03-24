@@ -31,11 +31,22 @@ class Sphere extends Component{
     if(sign==0)return Math.random();
     return -Math.random();
   }
+  //Source: https://stackoverflow.com/a/15048260
+  randomSpherePoint(x0,y0,z0,radius){
+    var u = Math.random();
+    var v = Math.random();
+    var theta = 2 * Math.PI * u;
+    var phi = Math.acos(2 * v - 1);
+    var x = x0 + (radius * Math.sin(phi) * Math.cos(theta));
+    var y = y0 + (radius * Math.sin(phi) * Math.sin(theta));
+    var z = z0 + (radius * Math.cos(phi));
+    return [x,y,z];
+ }
   render(){
     return(
       <ViroSphere
-        position={[this.generateRandom(),this.generateRandom(),-0.7]}
-        scale={[0.15,0.15,0.15]}
+        position={this.randomSpherePoint(0,0,0,1)}
+        scale={[0.25,0.25,0.25]}
         materials={["ball"]}
         animation={this.state.anim}
         onClick={()=>{this.setState({anim:this.anims.leaveAnim});
@@ -57,10 +68,10 @@ export default class Game extends Component {
   render() {
     console.log("Rendering");
     return (
-      <ViroScene>
+      <ViroARScene>
         <ViroAmbientLight color={"#fff"}/>
-            {this.generateSpheres(2)}
-      </ViroScene>
+            {this.generateSpheres(10)}
+      </ViroARScene>
     );
   }
 
@@ -76,9 +87,9 @@ ViroMaterials.createMaterials({
 });
 ViroAnimations.registerAnimations({
   animateImage:{properties:{rotateZ:"+=10",rotateX:"+=60",rotateY:"+=30"}, 
-  duration: 200},
+  duration: 400},
   exitAnim: {
-    properties:{scaleX:"-=0.05",scaleY:"-=0.05",scaleZ:"-=0.005"},
+    properties:{scaleX:"-=0.25",scaleY:"-=0.25",scaleZ:"-=0.25"},
     duration:100
   }
 });

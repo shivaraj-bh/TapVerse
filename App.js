@@ -63,9 +63,9 @@ export default class App extends Component {
   }
   _getARNavigator() {
     return (
-      <ViroVRSceneNavigator
+      <ViroARSceneNavigator
         initialScene={{scene: InitialARScene}}
-        vrModeEnabled={false}/>
+        />
     );
   }
   _getExperienceButtonOnPress(navigatorType) {
