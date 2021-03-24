@@ -7,29 +7,18 @@ import {
   ViroMaterials,
   ViroAmbientLight,
   ViroAnimations,
-  ViroSphere
+  ViroSphere,
+  Viro360Image,
+  ViroSkyBox,
+  ViroSpotLight,
+  ViroController,
+  ViroNode,
+  ViroSound
 } from 'react-viro';
 class Sphere extends Component{
   constructor(props){
     super(props);
-    this.anims = {defaultAnim:{},leaveAnim:{}};
-    this.anims.defaultAnim.name = "animateImage";
-    this.anims.defaultAnim.run = true;
-    this.anims.defaultAnim.loop = true;
-    this.anims.leaveAnim.name = "exitAnim";
-    this.anims.leaveAnim.run = true;
-    this.anims.leaveAnim.onFinish = ()=> {this.setState({anim:this.anims.defaultAnim});
-                                          console.log("Animation finished");}
-    this.state = {anim:this.anims.defaultAnim};
-  }
-  randomSign(){
-    let sign = Math.floor(Math.random()*2);
-    return sign;
-  }
-  generateRandom(){
-    let sign = this.randomSign();
-    if(sign==0)return Math.random();
-    return -Math.random();
+    this.state = {isPaused:true};
   }
   //Source: https://stackoverflow.com/a/15048260
   randomSpherePoint(x0,y0,z0,radius){
@@ -42,17 +31,23 @@ class Sphere extends Component{
     var z = z0 + (radius * Math.cos(phi));
     return [x,y,z];
  }
+  _LeaveAnim(){
+    this.setState({isPaused:false});
+  }
   render(){
     return(
-      <ViroSphere
-        position={this.randomSpherePoint(0,0,0,1)}
-        scale={[0.25,0.25,0.25]}
-        materials={["ball"]}
-        animation={this.state.anim}
-        onClick={()=>{this.setState({anim:this.anims.leaveAnim});
-                      console.log("Yeaaaaa");}}
-        
-      />
+      <ViroNode>
+        <ViroSphere
+          position={this.randomSpherePoint(0,0,0,5)}
+          scale={[0.2,0.2,0.2]}
+          materials={["ball"]}
+          onFuse={{callback:()=>{this._LeaveAnim()},timeToFuse:0}}/>
+        <ViroSound
+          source={require('./res/game.wav')}
+          loop={true}
+          paused={this.state.isPaused}
+          onFinish={()=>{this.setState({isPaused:true});}}/>
+      </ViroNode>
     );
   }
 }
@@ -61,36 +56,33 @@ export default class Game extends Component {
     super();
   }
   generateSpheres(n){
-    return [...Array(n)].map((x,i)=>
+    return [...Array(n)].map((_x,i)=>
         <Sphere key={i}/>
         );
   }
   render() {
     console.log("Rendering");
     return (
-      <ViroARScene>
-        <ViroAmbientLight color={"#fff"}/>
-            {this.generateSpheres(10)}
-      </ViroARScene>
+      <ViroScene>
+        <ViroSkyBox source={{nx:require('./res/grid_bg.jpg'),
+                       px:require('./res/grid_bg.jpg'),
+                       ny:require('./res/grid_bg.jpg'),
+                       py:require('./res/grid_bg.jpg'),
+                       nz:require('./res/grid_bg.jpg'),
+                       pz:require('./res/grid_bg.jpg')}} />
+        <ViroAmbientLight color={"#fff"} intensity={900}/>
+        {this.generateSpheres(10)}
+      </ViroScene>
     );
   }
-
 }
 ViroMaterials.createMaterials({
   ball: {
-    diffuseTexture:require('./res/grid_bg.jpg'),
+    diffuseTexture:require('./res/grid_bg1.png'),
     bloomThreshold:0.0,
     metalness:1.0,
     roughness:0,
     lightingModel: 'PBR',
-  }
-});
-ViroAnimations.registerAnimations({
-  animateImage:{properties:{rotateZ:"+=10",rotateX:"+=60",rotateY:"+=30"}, 
-  duration: 400},
-  exitAnim: {
-    properties:{scaleX:"-=0.25",scaleY:"-=0.25",scaleZ:"-=0.25"},
-    duration:100
   }
 });
 module.exports = Game;
