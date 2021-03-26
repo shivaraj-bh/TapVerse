@@ -8,6 +8,8 @@ import {
   ViroSkyBox,
   ViroNode,
   ViroSound,
+  ViroText,
+  ViroCamera
 } from 'react-viro';
 function Sphere(props){
   // const [score,setScore] = useState(0);
@@ -54,14 +56,26 @@ export default class Game extends Component {
     console.log(this.props.sceneNavigator.viroAppProps.hey);
     return (
       <ViroScene>
-      <ViroSkyBox source={{nx:require('./res/grid_bg.jpg'),
-                    px:require('./res/grid_bg.jpg'),
-                    ny:require('./res/grid_bg.jpg'),
-                    py:require('./res/grid_bg.jpg'),
-                    nz:require('./res/grid_bg.jpg'),
-                    pz:require('./res/grid_bg.jpg')}} />
-      <ViroAmbientLight color={"#fff"} intensity={900}/>
-      {this.generateSpheres(10)}
+        <ViroSkyBox source={{nx:require('./res/grid_bg.jpg'),
+                             px:require('./res/grid_bg.jpg'),
+                             ny:require('./res/grid_bg.jpg'),
+                             py:require('./res/grid_bg.jpg'),
+                             nz:require('./res/grid_bg.jpg'),
+                             pz:require('./res/grid_bg.jpg')}}/>
+        <ViroAmbientLight color={"#fff"} intensity={900}/>
+        {this.generateSpheres(10)}
+        <ViroCamera active={true}>
+          <ViroText
+            text="0"
+            textAlign="left"
+            textAlignVertical="top"
+            textLineBreakMode="Justify"
+            textClipMode="ClipToBounds"
+            color="#ff0000"
+            width={2} height={2}
+            style={{fontFamily:"Arial", fontSize:40, fontWeight:"bold", fontStyle:"italic", color:"#0000FF"}}
+            position={[0.5,3.7,-5]}/>
+        </ViroCamera>
     </ViroScene>
     );
   }

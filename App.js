@@ -150,4 +150,4 @@ var localStyles = StyleSheet.create({
     borderColor: '#fff',
   }
 });
-// module.exports = App
+module.exports = App
