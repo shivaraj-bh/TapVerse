@@ -8,8 +8,6 @@ import {
   ViroSkyBox,
   ViroNode,
   ViroSound,
-  ViroCamera,
-  ViroVRSceneNavigator,
 } from 'react-viro';
 
 function Sphere(props){
