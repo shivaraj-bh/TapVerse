@@ -18,7 +18,7 @@ import CountDown from 'react-native-countdown-component';
 var InitialARScene = require('./js/Game');
 var UNSET = "UNSET";
 var AR_NAVIGATOR_TYPE = "AR";
-
+console.log(InitialARScene);
 var defaultNavigatorType = UNSET;
 export default class App extends Component {
   constructor() {
@@ -41,7 +41,7 @@ export default class App extends Component {
       return (
         <View style={{flex:1}}>
           {this._getARNavigator()}
-          <View style={localStyles.timer}>
+        <View style={localStyles.timer}>
             <CountDown
                 size={20}
                 until={120}
@@ -54,10 +54,10 @@ export default class App extends Component {
                 timeLabels={{m: null, s: null}}
                 showSeparator/>
           </View>
-        </View>
-      )
+      </View>);
+      }
     }
-  }
+  
   _getExperienceSelector() {
     return (
       <View style={localStyles.outer} >
