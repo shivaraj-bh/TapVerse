@@ -5,38 +5,39 @@ import {
   StyleSheet,
   TouchableHighlight,
 } from 'react-native';
-
 import {
   ViroVRSceneNavigator
 } from 'react-viro';
-
 import CountDown from 'react-native-countdown-component';
-var InitialARScene = require('./js/Game');
+var InitialVRScene = require('./js/Game');
 var UNSET = "UNSET";
-var AR_NAVIGATOR_TYPE = "AR";
-console.log(InitialARScene);
+var VR_NAVIGATOR_TYPE = "VR";
 var defaultNavigatorType = UNSET;
 export default class App extends Component {
   constructor() {
     super();
-
     this.state = {
       navigatorType : defaultNavigatorType,
+      
     }
+    this.score = 0;
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
-    this._getARNavigator = this._getARNavigator.bind(this);
+    this._getVRNavigator = this._getVRNavigator.bind(this);
     this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(this);
     this._exitViro = this._exitViro.bind(this);
   }
-
-  
+  handleClick(){
+    this.score+=1;
+    console.log(this.score);
+    
+  }
   render() {
     if (this.state.navigatorType == UNSET) {
       return this._getExperienceSelector();
-    } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
+    } else if (this.state.navigatorType == VR_NAVIGATOR_TYPE) {
       return (
         <View style={{flex:1}}>
-          {this._getARNavigator()}
+          {this._getVRNavigator()}
         <View style={localStyles.timer}>
             <CountDown
                 size={20}
@@ -53,7 +54,6 @@ export default class App extends Component {
       </View>);
       }
     }
-  
   _getExperienceSelector() {
     return (
       <View style={localStyles.outer} >
@@ -62,23 +62,22 @@ export default class App extends Component {
           <Text style={localStyles.titleText}>
             Choose your desired experience:
           </Text>
-
           <TouchableHighlight style={localStyles.buttons}
-            onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE)}
+            onPress={this._getExperienceButtonOnPress(VR_NAVIGATOR_TYPE)}
             underlayColor={'#68a0ff'} >
-
-            <Text style={localStyles.buttonText}>AR</Text>
+            <Text style={localStyles.buttonText}>VR</Text>
           </TouchableHighlight>
-
         </View>
       </View>
     );
   }
-  _getARNavigator() {
+  _getVRNavigator() {
     return (
       <ViroVRSceneNavigator
-        initialScene={{scene: InitialARScene}}
-        vrModeEnabled={false}/>
+        initialScene={{scene:InitialVRScene}}
+        vrModeEnabled={false}
+        viroAppProps={{onFuse:()=>{this.handleClick()}}}
+        />
     );
   }
   _getExperienceButtonOnPress(navigatorType) {
@@ -151,5 +150,4 @@ var localStyles = StyleSheet.create({
     borderColor: '#fff',
   }
 });
-
-module.exports = App
+// module.exports = App

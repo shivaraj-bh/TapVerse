@@ -4,4 +4,5 @@
 3) To run the app, open ViroMedia testbed app and enter your laptop's Local IP under the testbed section.
 
 TODO: 
-1) Remove the unnecessary random functions if the random function on a sphere works fine
+1) Make a scorecard and set score as a state variable for scorecard
+2) Replace the multiple viro sounds that you are adding with each object with just one speaker, to make the app more efficient

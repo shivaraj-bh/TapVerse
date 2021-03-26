@@ -9,18 +9,16 @@ import {
   ViroNode,
   ViroSound,
 } from 'react-viro';
-
 function Sphere(props){
-  const [score,setScore] = useState(0);
+  // const [score,setScore] = useState(0);
   const [pause,setPaused] = useState(true);
-  console.log("Heree I am",props.random(0,0,0,5));
   return(
     <ViroNode>
       <ViroSphere
         position={props.random(0,0,0,5)}
         scale={[0.2,0.2,0.2]}
         materials={["ball"]}
-        onFuse={{callback:()=>{setPaused(false);setScore(score+1)},timeToFuse:0}}/>
+        onFuse={{callback:()=>{setPaused(false);props.onFuse();},timeToFuse:0}}/>
       <ViroSound
         source={require('./res/game.wav')}
         loop={true}
@@ -31,8 +29,9 @@ function Sphere(props){
 }
 
 export default class Game extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.props = props;
   }
   //Source: https://stackoverflow.com/a/15048260
   randomSpherePoint(x0,y0,z0,radius){
@@ -48,11 +47,11 @@ export default class Game extends Component {
  
   generateSpheres(n){
     return [...Array(n)].map((_x,i)=>
-        <Sphere key={i} random={(x,y,z,r)=>{return this.randomSpherePoint(x,y,z,r);}}/>
+        <Sphere key={i} random={(x,y,z,r)=>{return this.randomSpherePoint(x,y,z,r);}} onFuse={()=>this.props.sceneNavigator.viroAppProps.onFuse()}/>
         );
   }
   render() {
-    console.log("Rendering");
+    console.log(this.props.sceneNavigator.viroAppProps.hey);
     return (
       <ViroScene>
       <ViroSkyBox source={{nx:require('./res/grid_bg.jpg'),
