@@ -30,10 +30,21 @@ function Sphere(props){
   );
 }
 
+
 export default class Game extends Component {
   constructor(props) {
     super(props);
     this.props = props;
+  }
+  shouldComponentUpdate(nextProps) {
+    // Rendering the component only if 
+    // passed props value is changed
+  
+    if (nextProps.value !== this.props.value) {
+      return true;
+    } else {
+      return false;
+    }
   }
   //Source: https://stackoverflow.com/a/15048260
   randomSpherePoint(x0,y0,z0,radius){
@@ -64,18 +75,6 @@ export default class Game extends Component {
                              pz:require('./res/grid_bg.jpg')}}/>
         <ViroAmbientLight color={"#fff"} intensity={900}/>
         {this.generateSpheres(10)}
-        <ViroCamera active={true}>
-          <ViroText
-            text="0"
-            textAlign="left"
-            textAlignVertical="top"
-            textLineBreakMode="Justify"
-            textClipMode="ClipToBounds"
-            color="#ff0000"
-            width={2} height={2}
-            style={{fontFamily:"Arial", fontSize:40, fontWeight:"bold", fontStyle:"italic", color:"#0000FF"}}
-            position={[0.5,3.7,-5]}/>
-        </ViroCamera>
     </ViroScene>
     );
   }

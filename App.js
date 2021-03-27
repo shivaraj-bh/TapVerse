@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -13,23 +13,32 @@ var InitialVRScene = require('./js/Game');
 var UNSET = "UNSET";
 var VR_NAVIGATOR_TYPE = "VR";
 var defaultNavigatorType = UNSET;
+
+const ScoreText = (props)=>{
+  const [score,setScore] = useState(0);
+  useEffect(()=>{
+    setScore(score+1);
+  },[props.score]);
+  return(
+    <Text style={localStyles.titleText}>
+      {score}
+    </Text>
+  );
+}
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
       navigatorType : defaultNavigatorType,
-      
+      score:0      
     }
-    this.score = 0;
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
     this._getVRNavigator = this._getVRNavigator.bind(this);
     this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(this);
     this._exitViro = this._exitViro.bind(this);
   }
   handleClick(){
-    this.score+=1;
-    console.log(this.score);
-    
+    this.setState({score:this.state.score+1});
   }
   render() {
     if (this.state.navigatorType == UNSET) {
@@ -50,10 +59,14 @@ export default class App extends Component {
                 timeToShow={['M', 'S']}
                 timeLabels={{m: null, s: null}}
                 showSeparator/>
+            <Text style={localStyles.titleText}>
+              {this.state.score}
+            </Text>
           </View>
       </View>);
       }
     }
+  
   _getExperienceSelector() {
     return (
       <View style={localStyles.outer} >
@@ -94,6 +107,13 @@ export default class App extends Component {
   }
 }
 var localStyles = StyleSheet.create({
+  titleText: {
+    position:'absolute',
+    left:20,
+    fontSize: 20,
+    fontWeight: "bold",
+    fontFamily: "Cochin"
+  },
   timer:{
     position: 'absolute',
   },
