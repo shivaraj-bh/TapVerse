@@ -14,17 +14,6 @@ var UNSET = "UNSET";
 var VR_NAVIGATOR_TYPE = "VR";
 var defaultNavigatorType = UNSET;
 
-const ScoreText = (props)=>{
-  const [score,setScore] = useState(0);
-  useEffect(()=>{
-    setScore(score+1);
-  },[props.score]);
-  return(
-    <Text style={localStyles.titleText}>
-      {score}
-    </Text>
-  );
-}
 export default class App extends Component {
   constructor() {
     super();
@@ -59,10 +48,11 @@ export default class App extends Component {
                 timeToShow={['M', 'S']}
                 timeLabels={{m: null, s: null}}
                 showSeparator/>
-            <Text style={localStyles.titleText}>
-              {this.state.score}
-            </Text>
+             
           </View>
+          <Text style={localStyles.scoreText}>
+              {this.state.score}
+            </Text>           
       </View>);
       }
     }
@@ -73,12 +63,12 @@ export default class App extends Component {
         <View style={localStyles.inner} >
 
           <Text style={localStyles.titleText}>
-            Choose your desired experience:
+            TapVerse
           </Text>
           <TouchableHighlight style={localStyles.buttons}
             onPress={this._getExperienceButtonOnPress(VR_NAVIGATOR_TYPE)}
             underlayColor={'#68a0ff'} >
-            <Text style={localStyles.buttonText}>VR</Text>
+            <Text style={localStyles.buttonText}>Play Game</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -107,15 +97,17 @@ export default class App extends Component {
   }
 }
 var localStyles = StyleSheet.create({
-  titleText: {
+  scoreText: {
     position:'absolute',
-    left:20,
-    fontSize: 20,
-    fontWeight: "bold",
-    fontFamily: "Cochin"
+    fontSize:40,
+    color:'#ffffff',
+    left:"50%",
+    top:"3%",
   },
   timer:{
     position: 'absolute',
+    left:"5%",
+    top:"3%",
   },
   viroContainer :{
     flex : 1,
