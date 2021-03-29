@@ -94,6 +94,14 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('/home/shivaraj/react/reactnative/TapVerse/android/keystores/key.jks')
+            storePassword 'Grinchyismywife123#'
+            keyPassword 'Grinchyismywife123#'
+            keyAlias 'key0'
+        }
+    }
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     flavorDimensions "platform"
@@ -104,7 +112,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.trapverse"
+        applicationId 'com.tapverse'
         minSdkVersion 23
         targetSdkVersion 28
         multiDexEnabled true
@@ -138,6 +146,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.config
         }
     }
     // applicationVariants are e.g. debug, release

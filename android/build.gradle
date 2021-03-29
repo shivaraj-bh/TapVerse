@@ -1,4 +1,7 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    var = '/home/shivaraj/react/reactnative/TapVerse/android/keystores/key.jks'
+    var1 = 'Grinchyismywife123#'
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     repositories {
