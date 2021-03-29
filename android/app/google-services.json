@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1091570673429",
+    "project_id": "tapverse-59702",
+    "storage_bucket": "tapverse-59702.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091570673429:android:1708ab39b3c1da6619ab1c",
+        "android_client_info": {
+          "package_name": "com.noname.tapverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091570673429-ruv6tc2urr6rtql664q97tfgu39kgflb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9LGbq4XAt002KbMULBgt_eUEB9tr2hMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091570673429-ruv6tc2urr6rtql664q97tfgu39kgflb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

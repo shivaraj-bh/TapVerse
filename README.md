@@ -12,3 +12,4 @@ To generate the index bundle file to run the app on android studio
 1) Make a scorecard and set score as a state variable for scorecard
 2) Replace the multiple viro sounds that you are adding with each object with just one speaker, to make the app more efficient
 3) Remove drawable and raw folder from android/app/src/main/res
+4) Change App.js code for sign in page after checking the bookmark from your chrome

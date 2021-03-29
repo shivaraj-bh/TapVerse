@@ -4,6 +4,10 @@ import {
   View,
   StyleSheet,
   TouchableHighlight,
+  StatusBar,
+  SafeAreaView,
+  ScrollView,
+  Header
 } from 'react-native';
 import {
   GoogleSignin,
