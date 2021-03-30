@@ -1,7 +1,6 @@
 # TapVerse
 1) Commit or download the zip onto your system
-2) Run npm start from the command line
-3) To run the app, open ViroMedia testbed app and enter your laptop's Local IP under the testbed section.
+2) Run ***react-native run-android***
 
 # INFO
 1) After linking react-native firebase google sign in option viro media testbed does not work, alternative is to either generate bundle using the command below and run using android studio or ***react-native run-android***
