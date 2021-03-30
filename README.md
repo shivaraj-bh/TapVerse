@@ -7,7 +7,7 @@
 1) After linking react-native firebase google sign in option viro media testbed does not work, alternative is to either generate bundle using the command below and run using android studio or react-native run-android
 
 # commands
-To generate the index bundle file to run the app on android studio
+To generate the index bundle file to run the app on android studio<br>
 1) react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res 
 
 
