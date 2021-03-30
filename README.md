@@ -4,7 +4,7 @@
 3) To run the app, open ViroMedia testbed app and enter your laptop's Local IP under the testbed section.
 
 # INFO
-1) After linking react-native firebase google sign in option viro media testbed does not work, alternative is to either generate bundle using the command below and run using android studio or react-native run-android
+1) After linking react-native firebase google sign in option viro media testbed does not work, alternative is to either generate bundle using the command below and run using android studio or ***react-native run-android***
 
 # commands
 To generate the index bundle file to run the app on android studio<br>
