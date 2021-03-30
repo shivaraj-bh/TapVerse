@@ -4,6 +4,15 @@ ext {
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext{
+        applicationId = 'com.noname.tapverse'
+        buildToolsVersion = '29.0.3'
+        minSdkVersion = 23
+        compileSdkVersion = 30
+        targetSdkVersion = 30
+        supportLibVersion = "27.1.1"
+        googlePlayServicesAuthVersion = "16.0.1"
+    }
     repositories {
         google()
         jcenter()

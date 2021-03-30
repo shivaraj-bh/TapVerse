@@ -130,15 +130,15 @@ android {
     }
     productFlavors {
         ar {
-            resValue 'string', 'app_name', 'TrapVerse-ar'
+            resValue 'string', 'tap_verse', 'TapVerse-ar'
             buildConfigField 'String', 'VR_PLATFORM', '"GVR"' //default to GVR
         }
         gvr {
-            resValue 'string', 'app_name', 'TrapVerse-gvr'
+            resValue 'string', 'tap_verse', 'TapVerse-gvr'
             buildConfigField 'String', 'VR_PLATFORM', '"GVR"'
         }
         ovr {
-            resValue 'string', 'app_name', 'TrapVerse-ovr'
+            resValue 'string', 'tap_verse', 'TapVerse-ovr'
             applicationIdSuffix '.ovr'
             buildConfigField 'String', 'VR_PLATFORM', '"OVR_MOBILE"'
         }
@@ -166,10 +166,12 @@ android {
 }
 
 dependencies {
+    implementation project(path: ":@react-native-firebase_auth")
     implementation platform('com.google.firebase:firebase-bom:26.8.0')
-    implementation 'com.google.firebase:firebase-analytics' 
+    implementation 'com.google.firebase:firebase-analytics'
     implementation project(':react-native-google-signin')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.facebook.react:react-native:+'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'

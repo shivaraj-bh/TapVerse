@@ -1,6 +1,11 @@
-rootProject.name = 'TrapVerse'
+rootProject.name = 'TapVerse'
 include ':react-native-google-signin'
 project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
+
+include ':@react-native-firebase_app'
+project(':@react-native-firebase_app').projectDir = new File(rootProject.projectDir,'./../node_modules/@react-native-firebase/app/android')
+include ':@react-native-firebase_auth'
+project(':@react-native-firebase_auth').projectDir = new File(rootProject.projectDir, './../node_modules/@react-native-firebase/auth/android')
 
 include ':app'
 include ':react_viro', ':arcore_client', ':gvr_common', ':viro_renderer'

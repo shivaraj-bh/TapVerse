@@ -3,13 +3,19 @@
 2) Run npm start from the command line
 3) To run the app, open ViroMedia testbed app and enter your laptop's Local IP under the testbed section.
 
+#INFO
+1) After linking react-native firebase google sign in option viro media testbed does not work, alternative is to either generate bundle using the command below and run using android studio or react-native run-android
+
 # commands
 To generate the index bundle file to run the app on android studio
 1) react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res 
 
 
 # TODO: 
-1) Make a scorecard and set score as a state variable for scorecard
+[done]1) Make a scorecard and set score as a state variable for scorecard
 2) Replace the multiple viro sounds that you are adding with each object with just one speaker, to make the app more efficient
 3) Remove drawable and raw folder from android/app/src/main/res
-4) Change App.js code for sign in page after checking the bookmark from your chrome
+[done]4) Change App.js code for sign in page after checking the bookmark from your chrome
+5) Add a exit button in the game screen
+6) Add log out button in the main menu and also add a user name in top right corner or somewhere
+7) Check if you change the VR part of the game and generate the bundle will the edit be shown in the app without using ./setup-ide.sh android command (cause this command will fuck up the entire android build at this point)

@@ -1,4 +1,4 @@
-package com.trapverse;
+package com.noname.tapverse;
 
 import android.app.Application;
 
@@ -8,6 +8,8 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
+import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.viromedia.bridge.ReactViroPackage;
 import com.facebook.soloader.SoLoader;
 
@@ -27,7 +29,9 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNGoogleSigninPackage(),
-          new ReactViroPackage(ReactViroPackage.ViroPlatform.valueOf(BuildConfig.VR_PLATFORM))
+          new ReactViroPackage(ReactViroPackage.ViroPlatform.valueOf(BuildConfig.VR_PLATFORM)),
+              new ReactNativeFirebaseAuthPackage(),
+              new ReactNativeFirebaseAppPackage()
       );
     }
 
