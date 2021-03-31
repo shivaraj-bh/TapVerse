@@ -16,5 +16,6 @@ To generate the index bundle file to run the app on android studio<br>
 3) Remove drawable and raw folder from android/app/src/main/res<br>
 ***[done]*** 4) Change App.js code for sign in page after checking the bookmark from your chrome <br>
 5) Add a exit button in the game screen<br>
-6) Add log out button in the main menu and also add a user name in top right corner or somewhere<br>
+***[done]*** 6) Add log out button in the main menu and also add a user name in top right corner or somewhere<br>
 7) Check if you change the VR part of the game and generate the bundle will the edit be shown in the app without using ./setup-ide.sh android command (cause this command will fuck up the entire android build at this point)<br>
+8) Clean the code (remove unnecessary styles that you declared etc.) and add leaderboard
