@@ -134,7 +134,7 @@ android {
             buildConfigField 'String', 'VR_PLATFORM', '"GVR"' //default to GVR
         }
         gvr {
-            resValue 'string', 'tap_verse', 'TapVerse-gvr'
+            resValue 'string', 'tap_verse', 'TapVerse'
             buildConfigField 'String', 'VR_PLATFORM', '"GVR"'
         }
         ovr {

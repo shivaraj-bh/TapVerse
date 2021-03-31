@@ -8,8 +8,6 @@ import {
   ViroSkyBox,
   ViroNode,
   ViroSound,
-  ViroText,
-  ViroCamera
 } from 'react-viro';
 function Sphere(props){
   // const [score,setScore] = useState(0);
@@ -30,7 +28,6 @@ function Sphere(props){
   );
 }
 
-
 export default class Game extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +36,6 @@ export default class Game extends Component {
   shouldComponentUpdate(nextProps) {
     // Rendering the component only if 
     // passed props value is changed
-  
     if (nextProps.value !== this.props.value) {
       return true;
     } else {
@@ -64,7 +60,6 @@ export default class Game extends Component {
         );
   }
   render() {
-    console.log(this.props.sceneNavigator.viroAppProps.hey);
     return (
       <ViroScene>
         <ViroSkyBox source={{nx:require('./res/grid_bg.jpg'),

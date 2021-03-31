@@ -126,6 +126,12 @@ export default () => {
         <>
           <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
             <View style={styles.body}>
+              <Text style={styles.sectionTitle}>
+                TapVerse
+              </Text>
+              <Text style={styles.sectionDescription}>
+                Login
+              </Text>
               <View style={styles.sectionContainer}>
                 {!loggedIn && (
                   <GoogleSigninButton
@@ -151,40 +157,39 @@ export default () => {
       <>
         <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
         <View style={{flex:1}}>
-          
           {_getVRNavigator()}
-
-        <View style={styles.timer}>
-            <CountDown
-                size={20}
-                until={120}
-                onFinish={() => alert('Finished')}
-                digitStyle={{backgroundColor: '#FFF', borderWidth: 2, borderColor: '#1CC625'}}
-                digitTxtStyle={{color: '#1CC625'}}
-                timeLabelStyle={{color: 'red', fontWeight: 'bold'}}
-                separatorStyle={{color: '#1CC625'}}
-                timeToShow={['M', 'S']}
-                timeLabels={{m: null, s: null}}
-                showSeparator/>
-            
-          </View>
-          <Text style={styles.scoreText}>
-              {score}
-            </Text>           
+          <View style={styles.timer}>
+              <CountDown
+                  size={20}
+                  until={120}
+                  onFinish={() => alert('Finished')}
+                  digitStyle={{backgroundColor: '#68a0cf', borderWidth: 2, borderColor: '#FFF'}}
+                  digitTxtStyle={{color: '#FFF'}}
+                  timeLabelStyle={{color: '#FFF', fontWeight: 'bold'}}
+                  separatorStyle={{color: '#FFF'}}
+                  timeToShow={['M', 'S']}
+                  timeLabels={{m: null, s: null}}
+                  showSeparator/>
+            <TouchableHighlight
+              style={styles.scoreContainer}
+              underlayColor={'#68a0ff'}>
+              <Text style={styles.scoreText}>
+                {score}
+              </Text>
+            </TouchableHighlight>
+                
+            <TouchableHighlight style={styles.exitButton}
+              onPress={_getExperienceButtonOnPress(UNSET)}
+              underlayColor={'#68a0ff'}>
+              <Text style={styles.buttonText}>Exit</Text>
+            </TouchableHighlight>  
+          </View>   
       </View>
     </>);
     }
   
 };
-
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: "blue",
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
   body: {
     backgroundColor: "white",
     flex:1,
@@ -202,44 +207,44 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 34,
     fontWeight: '600',
     color: "black",
   },
   sectionDescription: {
     marginTop: 8,
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: '400',
-    color: "yellow",
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: "orange",
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+    color: "purple",
   },
 
   //Navigator styles
   scoreText: {
-    position:'absolute',
-    fontSize:40,
-    color:'#ffffff',
-    left:"50%",
-    top:"3%",
+    fontSize:20,
+    fontWeight:"bold",
+    color:'#fff',
+  },
+  scoreContainer:{
+    // marginTop:3,
+    height: 55,
+    width: 50,
+    paddingTop:10,
+    paddingBottom:10,
+    backgroundColor:'#68a0cf',
+    borderWidth: 2,
+    borderColor: '#fff',
+    borderRadius:10,
+    justifyContent:'center',
+    alignItems:'center'
+    
   },
   timer:{
-    position: 'absolute',
-    left:"5%",
-    top:"3%",
-  },
-  viroContainer :{
-    flex : 1,
-    backgroundColor: "black",
+    position:'absolute',
+    top:"2%",
+    width:"100%",
+    // flexWrap:'wrap',
+    justifyContent:'space-between',
+    flexDirection:'row'
   },
   outer : {
     flex : 1,
@@ -263,7 +268,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color:'#fff',
     textAlign:'center',
-    fontSize : 20
+    fontSize : 20,
+    fontWeight:'bold'
   },
   buttons : {
     height: 80,
@@ -276,17 +282,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#fff',
+
   },
   exitButton : {
-    height: 50,
+    height: 55,
     width: 100,
-    paddingTop:10,
-    paddingBottom:10,
-    marginTop: 10,
-    marginBottom: 10,
+    justifyContent:'center',
+    alignItems:'center',
     backgroundColor:'#68a0cf',
-    borderRadius: 10,
-    borderWidth: 1,
+    borderRadius: 30,
+    borderWidth: 2,
     borderColor: '#fff',
   }
 });
