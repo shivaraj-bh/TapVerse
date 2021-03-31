@@ -23,7 +23,7 @@ function Sphere(props){
         onFuse={{callback:()=>{setPaused(false);props.onFuse();},timeToFuse:0}}/>
       <ViroSound
         source={require('./res/game.wav')}
-        loop={true}
+        loop={false}
         paused={pause}
         onFinish={()=>{setPaused(true)}}/>
     </ViroNode>

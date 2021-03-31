@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   StatusBar,
-  Button,
   TouchableHighlight
 } from 'react-native';
-
+import {
+  ViroVRSceneNavigator
+} from 'react-viro';
 import {
   GoogleSignin,
   GoogleSigninButton,
