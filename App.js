@@ -20,6 +20,7 @@ import CountDown from 'react-native-countdown-component';
 var InitialVRScene = require('./js/Game');
 var UNSET = "UNSET";
 var VR_NAVIGATOR_TYPE = "VR";
+var LOGIN_NAVIGATOR_TYPE = "LOGIN";
 var defaultNavigatorType = UNSET;
 export default () => {
   const [loggedIn, setloggedIn] = useState(false);
@@ -31,7 +32,7 @@ export default () => {
     try {
       await GoogleSignin.hasPlayServices();
       const {accessToken, idToken} = await GoogleSignin.signIn();
-      setloggedIn(true);
+      // setloggedIn(true);
 
       const credential = auth.GoogleAuthProvider.credential(
         idToken,
@@ -53,7 +54,6 @@ export default () => {
   };
   function onAuthStateChanged(user) {
     setUser(user);
-    console.log(user);
     if (user) setloggedIn(true);
   }
   useEffect(() => {
@@ -65,12 +65,16 @@ export default () => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
-  signOut = async () => {
+  _signOut = async () => {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      setloggedIn(false);
-      setUser([]);
+      auth()
+        .signOut()
+        .then(() => alert('Your are signed out!'));
+        // setUser([]);
+        setloggedIn(false);
+      
     } catch (error) {
       console.error(error);
     }
@@ -82,7 +86,7 @@ export default () => {
     return (
         <View style={styles.outer} >
           <View style={styles.inner} >
-  
+          <Text style={styles.buttonText}>Welcome {user.displayName}</Text>
             <Text style={styles.titleText}>
               TapVerse
             </Text>
@@ -90,6 +94,11 @@ export default () => {
               onPress={_getExperienceButtonOnPress(VR_NAVIGATOR_TYPE)}
               underlayColor={'#68a0ff'} >
               <Text style={styles.buttonText}>Play Game</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.buttons}
+              onPress={()=>{_signOut()}}
+              underlayColor={'#68a0ff'} >
+              <Text style={styles.buttonText}>Logout</Text>
             </TouchableHighlight>
           </View>
         </View>
@@ -116,39 +125,22 @@ export default () => {
       if(!loggedIn){
         return ( 
         <>
-          <StatusBar barStyle="dark-content" />
-          <SafeAreaView>
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"
-              style={styles.scrollView}>
-              {/* <Header /> */}
-    
-              <View style={styles.body}>
-                <View style={styles.sectionContainer}>
-                  {!loggedIn && (
-                    <GoogleSigninButton
-                      style={{width: 192, height: 48}}
-                      size={GoogleSigninButton.Size.Wide}
-                      color={GoogleSigninButton.Color.Dark}
-                      onPress={this._signIn}
-                    />
-                  )}
-                </View>
-                <View style={styles.buttonContainer}>
-                  {!loggedIn && <Text>You are currently logged out</Text>}
-                  {loggedIn && (
-                    <View>
-                      <Text>Welcome {user.displayName}</Text>
-                      <Button
-                        onPress={this.signOut}
-                        title="LogOut"
-                        color="red"></Button>
-                    </View>
-                  )}
-                </View>
+          <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
+            <View style={styles.body}>
+              <View style={styles.sectionContainer}>
+                {!loggedIn && (
+                  <GoogleSigninButton
+                    style={{width: 192, height: 48}}
+                    size={GoogleSigninButton.Size.Wide}
+                    color={GoogleSigninButton.Color.Dark}
+                    onPress={()=>{_signIn()}}
+                  />
+                )}
               </View>
-            </ScrollView>
-          </SafeAreaView>
+              <View style={styles.buttonContainer}>
+                {!loggedIn && <Text>You are currently logged out</Text>}
+              </View>
+            </View>
         </>
         );
     }
@@ -157,26 +149,31 @@ export default () => {
     }
   }else if (navigatorType == VR_NAVIGATOR_TYPE) {
     return (
-      <View style={{flex:1}}>
-        {_getVRNavigator()}
-      <View style={styles.timer}>
-          <CountDown
-              size={20}
-              until={120}
-              onFinish={() => alert('Finished')}
-              digitStyle={{backgroundColor: '#FFF', borderWidth: 2, borderColor: '#1CC625'}}
-              digitTxtStyle={{color: '#1CC625'}}
-              timeLabelStyle={{color: 'red', fontWeight: 'bold'}}
-              separatorStyle={{color: '#1CC625'}}
-              timeToShow={['M', 'S']}
-              timeLabels={{m: null, s: null}}
-              showSeparator/>
-           
-        </View>
-        <Text style={styles.scoreText}>
-            {score}
-          </Text>           
-    </View>);
+      <>
+        <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
+        <View style={{flex:1}}>
+          
+          {_getVRNavigator()}
+
+        <View style={styles.timer}>
+            <CountDown
+                size={20}
+                until={120}
+                onFinish={() => alert('Finished')}
+                digitStyle={{backgroundColor: '#FFF', borderWidth: 2, borderColor: '#1CC625'}}
+                digitTxtStyle={{color: '#1CC625'}}
+                timeLabelStyle={{color: 'red', fontWeight: 'bold'}}
+                separatorStyle={{color: '#1CC625'}}
+                timeToShow={['M', 'S']}
+                timeLabels={{m: null, s: null}}
+                showSeparator/>
+            
+          </View>
+          <Text style={styles.scoreText}>
+              {score}
+            </Text>           
+      </View>
+    </>);
     }
   
 };
@@ -191,6 +188,9 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: "white",
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
   },
   sectionContainer: {
     marginTop: 32,
