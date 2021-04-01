@@ -20,9 +20,19 @@ import CountDown from 'react-native-countdown-component';
 var InitialVRScene = require('./js/Game');
 var UNSET = "UNSET";
 var VR_NAVIGATOR_TYPE = "VR";
-var LOGIN_NAVIGATOR_TYPE = "LOGIN";
 var defaultNavigatorType = UNSET;
+var Sound = require('react-native-sound');
 export default () => {
+  Sound.setCategory('Playback');
+  var mainTrack = new Sound('game1_mod1.wav',Sound.MAIN_BUNDLE,(error)=>{
+    if(error){
+      alert("Error while loading");
+      return;
+    }
+    alert("Succefully loaded the song");
+  });
+  var clickTrack = new Sound('game3.wav',Sound.MAIN_BUNDLE);
+  var endTrack = new Sound('game2.wav',Sound.MAIN_BUNDLE);
   const [loggedIn, setloggedIn] = useState(false);
   const [user, setUser] = useState([]);
   const [navigatorType,setNavigatorType] = useState(defaultNavigatorType);

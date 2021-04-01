@@ -20,7 +20,7 @@ function Sphere(props){
         materials={["ball"]}
         onFuse={{callback:()=>{setPaused(false);props.onFuse();},timeToFuse:0}}/>
       <ViroSound
-        source={require('./res/game.wav')}
+        source={require('./res/game3.wav')}
         loop={false}
         paused={pause}
         onFinish={()=>{setPaused(true)}}/>
