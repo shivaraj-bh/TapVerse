@@ -69,7 +69,7 @@ export default class Game extends Component {
                              nz:require('./res/grid_bg.jpg'),
                              pz:require('./res/grid_bg.jpg')}}/>
         <ViroAmbientLight color={"#fff"} intensity={900}/>
-        {this.generateSpheres(10)}
+        {this.generateSpheres(20)}
     </ViroScene>
     );
   }

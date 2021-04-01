@@ -4,7 +4,8 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } from 'react-native';
 import {
   ViroVRSceneNavigator
@@ -83,24 +84,30 @@ export default () => {
   }
   function _getExpereienceSelector(){
     return (
-        <View style={styles.outer} >
-          <View style={styles.inner} >
-          <Text style={styles.buttonText}>Welcome {user.displayName}</Text>
-            <Text style={styles.titleText}>
+      <ScrollView contentContainerStyle={{flexGrow:1}}>
+          <View style={styles.menuHeader}>
+            <Text style={styles.sectionTitle}>
               TapVerse
             </Text>
-            <TouchableHighlight style={styles.buttons}
-              onPress={_getExperienceButtonOnPress(VR_NAVIGATOR_TYPE)}
-              underlayColor={'#68a0ff'} >
-              <Text style={styles.buttonText}>Play Game</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.buttons}
-              onPress={()=>{_signOut()}}
-              underlayColor={'#68a0ff'} >
-              <Text style={styles.buttonText}>Logout</Text>
-            </TouchableHighlight>
+            <Text style={styles.sectionDescription}>Welcome {user.displayName}</Text>
           </View>
-        </View>
+            <View style={styles.inner}>
+              <TouchableHighlight style={styles.buttons}
+                onPress={_getExperienceButtonOnPress(VR_NAVIGATOR_TYPE)}
+                underlayColor={'black'} >
+                <Text style={styles.buttonText}>Play Game</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.buttons}
+                underlayColor={'black'} >
+                <Text style={styles.buttonText}>Leaderboard</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.buttons}
+                onPress={()=>{_signOut()}}
+                underlayColor={'black'} >
+                <Text style={styles.buttonText}>Logout</Text>
+              </TouchableHighlight>
+            </View>
+      </ScrollView>
       );
   }
   function _getVRNavigator() {
@@ -142,9 +149,6 @@ export default () => {
                   />
                 )}
               </View>
-              <View style={styles.buttonContainer}>
-                {!loggedIn && <Text>You are currently logged out</Text>}
-              </View>
             </View>
         </>
         );
@@ -159,17 +163,17 @@ export default () => {
         <View style={{flex:1}}>
           {_getVRNavigator()}
           <View style={styles.timer}>
-              <CountDown
-                  size={20}
-                  until={120}
-                  onFinish={() => alert('Finished')}
-                  digitStyle={{backgroundColor: '#68a0cf', borderWidth: 2, borderColor: '#FFF'}}
-                  digitTxtStyle={{color: '#FFF'}}
-                  timeLabelStyle={{color: '#FFF', fontWeight: 'bold'}}
-                  separatorStyle={{color: '#FFF'}}
-                  timeToShow={['M', 'S']}
-                  timeLabels={{m: null, s: null}}
-                  showSeparator/>
+            <CountDown
+              size={20}
+              until={60}
+              onFinish={() => alert('Finished')}
+              digitStyle={{borderWidth: 2, borderColor: 'black'}}
+              digitTxtStyle={{color: 'black'}}
+              timeLabelStyle={{color: 'black', fontWeight: 'bold'}}
+              separatorStyle={{color: 'black'}}
+              timeToShow={['M', 'S']}
+              timeLabels={{m: null, s: null}}
+              showSeparator/>
             <TouchableHighlight
               style={styles.scoreContainer}
               underlayColor={'#68a0ff'}>
@@ -203,36 +207,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  buttonContainer: {
-    alignSelf: 'center',
-  },
   sectionTitle: {
-    fontSize: 34,
+    fontSize: 40,
     fontWeight: '600',
     color: "black",
   },
   sectionDescription: {
     marginTop: 8,
-    fontSize: 24,
-    fontWeight: '400',
-    color: "purple",
+    fontSize: 20,
+    fontStyle:'italic',
+    fontWeight: '350',
+    color: "black",
   },
 
   //Navigator styles
   scoreText: {
     fontSize:20,
     fontWeight:"bold",
-    color:'#fff',
+    color:'black',
   },
   scoreContainer:{
     // marginTop:3,
     height: 55,
     width: 50,
-    paddingTop:10,
-    paddingBottom:10,
-    backgroundColor:'#68a0cf',
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: 'black',
     borderRadius:10,
     justifyContent:'center',
     alignItems:'center'
@@ -243,20 +242,21 @@ const styles = StyleSheet.create({
     top:"2%",
     width:"100%",
     // flexWrap:'wrap',
-    justifyContent:'space-between',
+    justifyContent:'space-around',
     flexDirection:'row'
   },
-  outer : {
-    flex : 1,
-    flexDirection: 'row',
+  menuHeader : {
+    flex:1,
+    justifyContent:'flex-end',
     alignItems:'center',
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
   inner: {
-    flex : 1,
+    flex:2,
     flexDirection: 'column',
+    justifyContent:'center',
     alignItems:'center',
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
   titleText: {
     paddingTop: 30,
@@ -266,32 +266,28 @@ const styles = StyleSheet.create({
     fontSize : 25
   },
   buttonText: {
-    color:'#fff',
-    textAlign:'center',
-    fontSize : 20,
-    fontWeight:'bold'
+    fontSize: 24,
+    fontWeight: '400',
+    color: "black",
   },
   buttons : {
-    height: 80,
-    width: 150,
-    paddingTop:20,
-    paddingBottom:20,
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor:'#68a0cf',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-
+    height: 60,
+    width: 250,
+    marginBottom:40,
+    justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:'white',
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: 'black',
   },
   exitButton : {
     height: 55,
     width: 100,
     justifyContent:'center',
     alignItems:'center',
-    backgroundColor:'#68a0cf',
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: 'black',
   }
 });
