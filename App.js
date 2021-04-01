@@ -17,9 +17,11 @@ import {
 } from 'react-native-google-signin';
 import auth from '@react-native-firebase/auth';
 import CountDown from 'react-native-countdown-component';
+import Leaderboard from 'react-native-leaderboard';
 var InitialVRScene = require('./js/Game');
 var UNSET = "UNSET";
 var VR_NAVIGATOR_TYPE = "VR";
+var LEADERBOARD_NAVIGATOR_TYPE = "LEADERBOARD";
 var defaultNavigatorType = UNSET;
 var Sound = require('react-native-sound');
 export default () => {
@@ -29,7 +31,7 @@ export default () => {
       alert("Error while loading");
       return;
     }
-    alert("Succefully loaded the song");
+    // alert("Succefully loaded the song");
   });
   var clickTrack = new Sound('game3.wav',Sound.MAIN_BUNDLE);
   var endTrack = new Sound('game2.wav',Sound.MAIN_BUNDLE);
@@ -37,6 +39,8 @@ export default () => {
   const [user, setUser] = useState([]);
   const [navigatorType,setNavigatorType] = useState(defaultNavigatorType);
   const [score,setScore] = useState(0);
+  const [data,setData] = useState([{userName:'Joe',highScore:52},
+                             {userName:'Josh',highScore:100}]);
 
   _signIn = async () => {
     try {
@@ -108,6 +112,7 @@ export default () => {
                 <Text style={styles.buttonText}>Play Game</Text>
               </TouchableHighlight>
               <TouchableHighlight style={styles.buttons}
+                onPress={()=>{setNavigatorType(LEADERBOARD_NAVIGATOR_TYPE)}}
                 underlayColor={'black'} >
                 <Text style={styles.buttonText}>Leaderboard</Text>
               </TouchableHighlight>
@@ -166,7 +171,14 @@ export default () => {
     else{
         return _getExpereienceSelector();
     }
-  }else if (navigatorType == VR_NAVIGATOR_TYPE) {
+  }else if(navigatorType==LEADERBOARD_NAVIGATOR_TYPE){
+    return (<Leaderboard
+            data = {data}
+            sortBy="highScore"
+            labelBy="userName"
+    />);
+  }
+  else if (navigatorType == VR_NAVIGATOR_TYPE) {
     return (
       <>
         <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
