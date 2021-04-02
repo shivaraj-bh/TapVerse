@@ -7,7 +7,7 @@
 2) debug variant for this app is ***gvrDebug***
 3) Run the metro bundler, using react-native start, before running "react-native run-android --variant=gvrDebug"
 
-# commands
+# Commands
 To generate the index bundle file to run the app on android studio<br>
 1) react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res 
 
