@@ -4,50 +4,32 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableHighlight,
-  ScrollView
 } from 'react-native';
-import {
-  ViroVRSceneNavigator
-} from 'react-viro';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from 'react-native-google-signin';
 import auth from '@react-native-firebase/auth';
-import CountDown from 'react-native-countdown-component';
-import Leaderboard from 'react-native-leaderboard';
-var InitialVRScene = require('./js/Game');
-var UNSET = "UNSET";
-var VR_NAVIGATOR_TYPE = "VR";
-var LEADERBOARD_NAVIGATOR_TYPE = "LEADERBOARD";
-var defaultNavigatorType = UNSET;
-var Sound = require('react-native-sound');
+import Menu from './js/Menu';
+function LoadScreen(){
+  return(
+    <>
+      <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
+        <View style={styles.body}>
+          <Text style={styles.sectionTitle}>
+            TapVerse
+          </Text>
+        </View>
+    </>);
+}
 export default () => {
-  Sound.setCategory('Playback');
-  var mainTrack = new Sound('game1_mod1.wav',Sound.MAIN_BUNDLE,(error)=>{
-    if(error){
-      alert("Error while loading");
-      return;
-    }
-    // alert("Succefully loaded the song");
-  });
-  var clickTrack = new Sound('game3.wav',Sound.MAIN_BUNDLE);
-  var endTrack = new Sound('game2.wav',Sound.MAIN_BUNDLE);
-  const [loggedIn, setloggedIn] = useState(false);
+  const [loggedIn, setloggedIn] = useState(0);
   const [user, setUser] = useState([]);
-  const [navigatorType,setNavigatorType] = useState(defaultNavigatorType);
-  const [score,setScore] = useState(0);
-  const [data,setData] = useState([{userName:'Joe',highScore:52},
-                             {userName:'Josh',highScore:100}]);
-
   _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const {accessToken, idToken} = await GoogleSignin.signIn();
-      // setloggedIn(true);
-
       const credential = auth.GoogleAuthProvider.credential(
         idToken,
         accessToken,
@@ -61,14 +43,18 @@ export default () => {
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         alert('PLAY_SERVICES_NOT_AVAILABLE');
       } else {
-        alert(error);
-        // alert("Not sure bro!");
+        // I don't care
+        alert('UNKNOWN_ERROR');
       }
     }
   };
   function onAuthStateChanged(user) {
     setUser(user);
-    if (user) setloggedIn(true);
+    if (user){
+      setloggedIn(2);
+    }else{
+      setloggedIn(1);
+    }
   }
   useEffect(() => {
     GoogleSignin.configure({
@@ -86,134 +72,38 @@ export default () => {
       auth()
         .signOut()
         .then(() => alert('Your are signed out!'));
-        // setUser([]);
-        setloggedIn(false);
-      
+        setloggedIn(1);
     } catch (error) {
       console.error(error);
     }
   };
-  function handleClick(){
-      setScore(score+1);
-  }
-  function _getExpereienceSelector(){
-    return (
-      <ScrollView contentContainerStyle={{flexGrow:1}}>
-          <View style={styles.menuHeader}>
+  if(loggedIn==0){
+    return (<LoadScreen/>);
+  }else if(loggedIn==1){
+    return ( 
+      <>
+        <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
+          <View style={styles.body}>
             <Text style={styles.sectionTitle}>
               TapVerse
             </Text>
-            <Text style={styles.sectionDescription}>Welcome {user.displayName}</Text>
+            <Text style={styles.sectionDescription}>
+              Login
+            </Text>
+            <View style={styles.sectionContainer}>
+              <GoogleSigninButton
+                style={{width: 192, height: 48}}
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={()=>{_signIn()}}
+              />
+            </View>
           </View>
-            <View style={styles.inner}>
-              <TouchableHighlight style={styles.buttons}
-                onPress={_getExperienceButtonOnPress(VR_NAVIGATOR_TYPE)}
-                underlayColor={'black'} >
-                <Text style={styles.buttonText}>Play Game</Text>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.buttons}
-                onPress={()=>{setNavigatorType(LEADERBOARD_NAVIGATOR_TYPE)}}
-                underlayColor={'black'} >
-                <Text style={styles.buttonText}>Leaderboard</Text>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.buttons}
-                onPress={()=>{_signOut()}}
-                underlayColor={'black'} >
-                <Text style={styles.buttonText}>Logout</Text>
-              </TouchableHighlight>
-            </View>
-      </ScrollView>
-      );
-  }
-  function _getVRNavigator() {
-    return (
-      <ViroVRSceneNavigator
-        initialScene={{scene:InitialVRScene}}
-        vrModeEnabled={false}
-        viroAppProps={{onFuse:()=>{handleClick()}}}
-        />
+      </>
     );
+  }else{
+    return (<Menu username={user.displayName} signOut={()=>_signOut()}/>);
   }
-  function _getExperienceButtonOnPress(navigatorType) {
-    return () => {
-      setNavigatorType(navigatorType);
-    }
-  }
-  function _exitViro() {
-    setNavigatorType(UNSET);
-  }
-  if(navigatorType==UNSET){
-      if(!loggedIn){
-        return ( 
-        <>
-          <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
-            <View style={styles.body}>
-              <Text style={styles.sectionTitle}>
-                TapVerse
-              </Text>
-              <Text style={styles.sectionDescription}>
-                Login
-              </Text>
-              <View style={styles.sectionContainer}>
-                {!loggedIn && (
-                  <GoogleSigninButton
-                    style={{width: 192, height: 48}}
-                    size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}
-                    onPress={()=>{_signIn()}}
-                  />
-                )}
-              </View>
-            </View>
-        </>
-        );
-    }
-    else{
-        return _getExpereienceSelector();
-    }
-  }else if(navigatorType==LEADERBOARD_NAVIGATOR_TYPE){
-    return (<Leaderboard
-            data = {data}
-            sortBy="highScore"
-            labelBy="userName"
-    />);
-  }
-  else if (navigatorType == VR_NAVIGATOR_TYPE) {
-    return (
-      <>
-        <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
-        <View style={{flex:1}}>
-          {_getVRNavigator()}
-          <View style={styles.timer}>
-            <CountDown
-              size={20}
-              until={60}
-              onFinish={() => alert('Finished')}
-              digitStyle={{borderWidth: 2, borderColor: 'black'}}
-              digitTxtStyle={{color: 'black'}}
-              timeLabelStyle={{color: 'black', fontWeight: 'bold'}}
-              separatorStyle={{color: 'black'}}
-              timeToShow={['M', 'S']}
-              timeLabels={{m: null, s: null}}
-              showSeparator/>
-            <TouchableHighlight
-              style={styles.scoreContainer}
-              underlayColor={'#68a0ff'}>
-              <Text style={styles.scoreText}>
-                {score}
-              </Text>
-            </TouchableHighlight>
-                
-            <TouchableHighlight style={styles.exitButton}
-              onPress={_getExperienceButtonOnPress(UNSET)}
-              underlayColor={'#68a0ff'}>
-              <Text style={styles.buttonText}>Exit</Text>
-            </TouchableHighlight>  
-          </View>   
-      </View>
-    </>);
-    }
-  
 };
 const styles = StyleSheet.create({
   body: {
@@ -238,78 +128,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 20,
     fontStyle:'italic',
-    fontWeight: '350',
+    fontWeight: '300',
     color: "black",
   },
-
-  //Navigator styles
-  scoreText: {
-    fontSize:20,
-    fontWeight:"bold",
-    color:'black',
-  },
-  scoreContainer:{
-    // marginTop:3,
-    height: 55,
-    width: 50,
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius:10,
-    justifyContent:'center',
-    alignItems:'center'
-    
-  },
-  timer:{
-    position:'absolute',
-    top:"2%",
-    width:"100%",
-    // flexWrap:'wrap',
-    justifyContent:'space-around',
-    flexDirection:'row'
-  },
-  menuHeader : {
-    flex:1,
-    justifyContent:'flex-end',
-    alignItems:'center',
-    backgroundColor: "white",
-  },
-  inner: {
-    flex:2,
-    flexDirection: 'column',
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor: "white",
-  },
-  titleText: {
-    paddingTop: 30,
-    paddingBottom: 20,
-    color:'#fff',
-    textAlign:'center',
-    fontSize : 25
-  },
-  buttonText: {
-    fontSize: 24,
-    fontWeight: '400',
-    color: "black",
-  },
-  buttons : {
-    height: 60,
-    width: 250,
-    marginBottom:40,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'white',
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: 'black',
-  },
-  exitButton : {
-    height: 55,
-    width: 100,
-    justifyContent:'center',
-    alignItems:'center',
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: 'black',
-  }
 });

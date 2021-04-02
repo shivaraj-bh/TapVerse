@@ -10,7 +10,6 @@ import {
   ViroSound,
 } from 'react-viro';
 function Sphere(props){
-  // const [score,setScore] = useState(0);
   const [pause,setPaused] = useState(true);
   return(
     <ViroNode>
@@ -52,8 +51,7 @@ export default class Game extends Component {
     var y = y0 + (radius * Math.sin(phi) * Math.sin(theta));
     var z = z0 + (radius * Math.cos(phi));
     return [x,y,z];
- }
- 
+  }
   generateSpheres(n){
     return [...Array(n)].map((_x,i)=>
         <Sphere key={i} random={(x,y,z,r)=>{return this.randomSpherePoint(x,y,z,r);}} onFuse={()=>this.props.sceneNavigator.viroAppProps.onFuse()}/>
@@ -83,5 +81,4 @@ ViroMaterials.createMaterials({
     lightingModel: 'PBR',
   }
 });
-
 module.exports = Game;

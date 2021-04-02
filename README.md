@@ -18,7 +18,7 @@ To generate the index bundle file to run the app on android studio<br>
 ***[done]*** 5) Add a exit button in the game screen<br>
 ***[done]*** 6) Add log out button in the main menu and also add a user name in top right corner or somewhere<br>
 ***[done]*** 7) Check if you change the VR part of the game and generate the bundle will the edit be shown in the app without using ./setup-ide.sh android command (cause this command will fuck up the entire android build at this point)<br>
-8) Clean the code (remove unnecessary styles that you declared etc.) and add leaderboard<br>
+***[done]*** 8) Clean the code (remove unnecessary styles that you declared etc.) and add leaderboard<br>
 ***[done]*** 9) take part in code gladiator and also don't forget about infytq<br>
 10) Take part in code gladiator ML challenge and practice DBMS for infytq qualifiers<br>
 11) Don't load the sound files on every re-render (prolly make them global, 'cause they are not going to be changed at any point)<br>
