@@ -13,8 +13,9 @@ export default function LeaderBoard(props){
     const [userRank,setUserRank] = useState(1);
     const [user,setUser] = useState({userName:props.userName,highScore:-1,iconURL:"https://i.imgur.com/gg8LwxU.jpg"})
     useEffect(()=>{
-        firestore()
+        const data_collect = setTimeout(()=>firestore()
             .collection('users')
+            .orderBy('highScore',"desc")
             .onSnapshot(docSnap=>{
                 if(docSnap===null||(!isSubscriber))return;
                 const data_retrieve = [];
@@ -24,19 +25,20 @@ export default function LeaderBoard(props){
                         iconUrl = "https://i.imgur.com/gg8LwxU.jpg";
                     }
                     if(doc.id===props.uid){
-                        setUser({userName:doc.data().userName,
-                                highScore:doc.data().highScore,
-                                iconURL:iconUrl});
+                        if(user.highScore!=doc.data().highScore)
+                            setUser({userName:doc.data().userName,
+                                    highScore:doc.data().highScore,
+                                    iconURL:iconUrl});
                     }
                     data_retrieve.push({userName:doc.data().userName,
                             highScore:doc.data().highScore,
                             iconURL:iconUrl});
                 });
-                if(data!=data_retrieve)
+                if(JSON.stringify(data)!=JSON.stringify(data_retrieve))
                     setData(data_retrieve);
-            });
-        return ()=>{isSubscriber=false};
-    });
+            }),1000);
+        return ()=>{isSubscriber=false;clearTimeout(data_collect)};
+    },[data]);
     const sort = (data) => {
         const sorted = data && data.sort((item1, item2) => {
             return item2.highScore - item1.highScore;
