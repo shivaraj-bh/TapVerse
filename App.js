@@ -102,7 +102,7 @@ export default () => {
       </>
     );
   }else{
-    return (<Menu username={user.displayName} signOut={()=>_signOut()}/>);
+    return (<Menu username={user.displayName} userProfile={user.photoURL} uid={user.uid} signOut={()=>_signOut()}/>);
   }
 };
 const styles = StyleSheet.create({

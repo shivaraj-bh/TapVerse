@@ -22,6 +22,13 @@ To generate the index bundle file to run the app on android studio<br>
 ***[done]*** 7) Check if you change the VR part of the game and generate the bundle will the edit be shown in the app without using ./setup-ide.sh android command (cause this command will fuck up the entire android build at this point)<br>
 ***[done]*** 8) Clean the code (remove unnecessary styles that you declared etc.) and add leaderboard<br>
 ***[done]*** 9) take part in code gladiator and also don't forget about infytq<br>
-10) Take part in code gladiator ML challenge and practice DBMS for infytq qualifiers<br>
-11) Don't load the sound files on every re-render (prolly make them global, 'cause they are not going to be changed at any point)<br>
-12) remove sound attached to each viroSound<br>
+10) Take part in code gladiator ML challenge and practice DBMS for infytq qualifiers<br> 
+***[done]*** 11) remove sound attached to each viroSound<br>
+12) Implement pagination to load the data faster<br>
+13) Add the user data in the firestore from the login page if the user database does not exist in the firestore<br>
+14) Only update if the current high score of the user is more than the previous high score<br>
+15) Use react-native-pages to implement pages in the leaderboard<br>
+
+
+# Future TODO
+1) Don't load the sound files on every re-render (prolly make them global, 'cause they are not going to be changed at any point)<br>

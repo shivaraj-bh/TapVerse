@@ -1,5 +1,5 @@
 'use strict';
-import React,{useState} from 'react';
+import React,{useState,useCallback, useEffect} from 'react';
 import {
     StyleSheet,
     View,
@@ -9,6 +9,7 @@ import {
   } from 'react-native';
 import {ViroVRSceneNavigator} from 'react-viro';
 import CountDown from 'react-native-countdown-component';
+import firestore from '@react-native-firebase/firestore';
 var InitialVRScene = require('./Game');
 var Sound = require('react-native-sound');
 var UNSET = "UNSET";
@@ -50,19 +51,26 @@ const styles = StyleSheet.create({
       flexDirection:'row'
   },
 });
-export default function GameContainer(props){
+let PlaySound = (filename)=>{
   Sound.setCategory('Playback');
-  var mainTrack = new Sound('game1_mod1.wav',Sound.MAIN_BUNDLE,(error)=>{
+  let clickTrack = new Sound(filename+'.wav',Sound.MAIN_BUNDLE,(error)=>{
     if(error){
-      alert("Error while loading");
+      console.log(error);
       return;
     }
-    // alert("Succefully loaded the song");
-  });
-  var clickTrack = new Sound('game3.wav',Sound.MAIN_BUNDLE);
-  var endTrack = new Sound('game2.wav',Sound.MAIN_BUNDLE);
+    clickTrack.play((success)=>{
+      if(success){
+        console.log("Successfully played");
+      }
+    });
+  }); 
+  clickTrack.setVolume(1);
+  clickTrack.release();
+}
+export default function GameContainer(props){
   const [score,setScore] = useState(0);
   function handleClick(){
+      PlaySound('game3');
       setScore(score+1);
   }
   function _getVRNavigator() {
@@ -74,6 +82,26 @@ export default function GameContainer(props){
         />
     );
   }
+  async function submitScore(){
+    const user_data = await firestore()
+                            .collection('users')
+                            .doc(props.uid)
+                            .get()
+                            .then(documentSnapshot=>{
+                              console.log('User exists: ', documentSnapshot.exists);
+                              if (documentSnapshot.exists) {
+                                console.log('User data: ', documentSnapshot.data());
+                              }
+                            });
+    firestore().collection('users').doc(props.uid).set({userName:props.userName,
+                                                        highScore:score,
+                                                        iconURL:props.userProfile})
+                                                  .then(()=>props._getExperienceButtonOnPress(UNSET))
+                                                  .catch((error)=>{
+                                                    console.log(error);
+                                                    props._getExperienceButtonOnPress(UNSET);
+                                                  });
+  }
   return (
       <>
         <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
@@ -83,7 +111,7 @@ export default function GameContainer(props){
             <CountDown
               size={20}
               until={60}
-              onFinish={() => alert('Finished')}
+              onFinish={() => {submitScore();}}
               digitStyle={{borderWidth: 2, borderColor: 'black'}}
               digitTxtStyle={{color: 'black'}}
               timeLabelStyle={{color: 'black', fontWeight: 'bold'}}

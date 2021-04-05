@@ -166,6 +166,7 @@ android {
 }
 
 dependencies {
+    implementation project(':@react-native-firebase_firestore')
     implementation project(':react-native-sound')
     implementation project(path: ":@react-native-firebase_auth")
     implementation platform('com.google.firebase:firebase-bom:26.8.0')

@@ -10,19 +10,15 @@ import {
   ViroSound,
 } from 'react-viro';
 function Sphere(props){
-  const [pause,setPaused] = useState(true);
+  const [refresh,setRefresh] = useState(true);
   return(
     <ViroNode>
       <ViroSphere
         position={props.random(0,0,0,5)}
         scale={[0.2,0.2,0.2]}
         materials={["ball"]}
-        onFuse={{callback:()=>{setPaused(false);props.onFuse();},timeToFuse:0}}/>
-      <ViroSound
-        source={require('./res/game3.wav')}
-        loop={false}
-        paused={pause}
-        onFinish={()=>{setPaused(true)}}/>
+        onFuse={{callback:()=>{setRefresh(!refresh);props.onFuse();},timeToFuse:0}}/>
+      
     </ViroNode>
   );
 }

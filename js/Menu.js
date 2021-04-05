@@ -46,10 +46,12 @@ function mainMenu(props){
   );
 }
 function playGame(props){
-    return (<GameContainer _getExperienceButtonOnPress={(NAVIGATOR_TYPE)=>props.setNav(NAVIGATOR_TYPE)}/>);
+    return (<GameContainer uid={props.uid} _getExperienceButtonOnPress={(NAVIGATOR_TYPE)=>props.setNav(NAVIGATOR_TYPE)}/>);
 }
-function leaderBoard(){
-    return (<LeaderBoard/>);
+function leaderBoard({userProfile,username,uid}){
+    return (<LeaderBoard userProfile={userProfile}
+                         username={username}
+                         uid={uid}/>);
 }
 const styles = StyleSheet.create({
   menuHeader : {
@@ -104,8 +106,11 @@ export default function Menu(props){
         signOut:()=>props.signOut(),
         setNav:(NAVIGATOR_TYPE)=>_getExperienceButtonOnPress(NAVIGATOR_TYPE)});
     }else if(navigatorType==VR_NAVIGATOR_TYPE){
-      return playGame({setNav:(NAVIGATOR_TYPE)=>_getExperienceButtonOnPress(NAVIGATOR_TYPE)});
+      return playGame({setNav:(NAVIGATOR_TYPE)=>_getExperienceButtonOnPress(NAVIGATOR_TYPE),
+                       uid:props.uid});
     }else{
-      return leaderBoard();
+      return leaderBoard({username:props.username,
+                          userProfile:props.userProfile,
+                          uid:props.uid});
     }
 }
