@@ -48,10 +48,8 @@ function mainMenu(props){
 function playGame(props){
     return (<GameContainer uid={props.uid} _getExperienceButtonOnPress={(NAVIGATOR_TYPE)=>props.setNav(NAVIGATOR_TYPE)}/>);
 }
-function leaderBoard({userProfile,username,uid}){
-    return (<LeaderBoard userProfile={userProfile}
-                         username={username}
-                         uid={uid}/>);
+function leaderBoard({uid,setNav}){
+    return (<LeaderBoard uid={uid} setNav={(NAVIGATOR_TYPE)=>setNav(NAVIGATOR_TYPE)}/>);
 }
 const styles = StyleSheet.create({
   menuHeader : {
@@ -109,8 +107,7 @@ export default function Menu(props){
       return playGame({setNav:(NAVIGATOR_TYPE)=>_getExperienceButtonOnPress(NAVIGATOR_TYPE),
                        uid:props.uid});
     }else{
-      return leaderBoard({username:props.username,
-                          userProfile:props.userProfile,
-                          uid:props.uid});
+      return leaderBoard({uid:props.uid,
+        setNav:(NAVIGATOR_TYPE)=>_getExperienceButtonOnPress(NAVIGATOR_TYPE)});
     }
 }

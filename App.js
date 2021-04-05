@@ -11,6 +11,7 @@ import {
   statusCodes,
 } from 'react-native-google-signin';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import Menu from './js/Menu';
 function LoadScreen(){
   return(
@@ -24,8 +25,8 @@ function LoadScreen(){
     </>);
 }
 export default () => {
-  const [loggedIn, setloggedIn] = useState(0);
-  const [user, setUser] = useState([]);
+  let isSubscriber = true;
+  const [user, setUser] = useState({user:null,loggedIn:0});
   _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -48,13 +49,37 @@ export default () => {
       }
     }
   };
+  async function setFirestoreData(){
+    if(!isSubscriber)return;
+    await firestore()
+      .collection('users')
+      .doc(user.user.uid)
+      .get()
+      .then(documentSnapshot=>{
+        console.log('User exists: ', documentSnapshot.exists);
+        if (documentSnapshot.exists===false){
+          firestore()
+          .collection('users')
+          .doc(user.user.uid)
+          .set({userName:user.user.displayName,
+            highScore:-1,
+            iconURL:user.user.photoURL})
+          .then(()=>console.log("initial data uploaded to firestore"))
+          .catch((error)=>{
+            console.log(error);
+          });
+        }else{
+          console.log('User data: ', documentSnapshot.data());
+        }
+      });
+      
+  }
   function onAuthStateChanged(user) {
-    setUser(user);
-    if (user){
-      setloggedIn(2);
-    }else{
-      setloggedIn(1);
-    }
+    if(!isSubscriber)return;
+    setUser({
+      user:user,
+      loggedIn:user?2:1
+    });
   }
   useEffect(() => {
     GoogleSignin.configure({
@@ -62,8 +87,8 @@ export default () => {
       webClientId:'1091570673429-ruv6tc2urr6rtql664q97tfgu39kgflb.apps.googleusercontent.com',
       offlineAccess: true,
     });
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
+    auth().onAuthStateChanged(onAuthStateChanged);
+    return ()=>{isSubscriber=false};
   }, []);
   _signOut = async () => {
     try {
@@ -72,14 +97,17 @@ export default () => {
       auth()
         .signOut()
         .then(() => alert('Your are signed out!'));
-        setloggedIn(1);
+        setUser({
+          user:null,
+          loggedIn:1
+        });
     } catch (error) {
       console.error(error);
     }
   };
-  if(loggedIn==0){
+  if(user.loggedIn==0){
     return (<LoadScreen/>);
-  }else if(loggedIn==1){
+  }else if(user.loggedIn==1){
     return ( 
       <>
         <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
@@ -102,7 +130,8 @@ export default () => {
       </>
     );
   }else{
-    return (<Menu username={user.displayName} userProfile={user.photoURL} uid={user.uid} signOut={()=>_signOut()}/>);
+    setFirestoreData();
+    return (<Menu username={user.user.displayName} uid={user.user.uid} signOut={()=>_signOut()}/>);
   }
 };
 const styles = StyleSheet.create({

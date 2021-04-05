@@ -1,13 +1,42 @@
 'use strict';
-import React,{useState} from 'react';
-import { View, Image, Text } from 'react-native';
+import React,{useEffect, useState} from 'react';
+import { View, Image, Text,StyleSheet,TouchableHighlight} from 'react-native';
 import Leaderboard from 'react-native-leaderboard';
-
-
+import firestore from '@react-native-firebase/firestore';
+var UNSET = "UNSET";
+var count = 0;
 export default function LeaderBoard(props){
+    count+=1;
+    console.log("Re-rendered",count);
+    let isSubscriber = true;
     const [data,setData] = useState([]);
     const [userRank,setUserRank] = useState(1);
-    const [user,setUser] = useState({userName:props.userName,highScore:-1})
+    const [user,setUser] = useState({userName:props.userName,highScore:-1,iconURL:"https://i.imgur.com/gg8LwxU.jpg"})
+    useEffect(()=>{
+        firestore()
+            .collection('users')
+            .onSnapshot(docSnap=>{
+                if(docSnap===null||(!isSubscriber))return;
+                const data_retrieve = [];
+                docSnap.forEach((doc)=>{
+                    let iconUrl = doc.data().iconURL;
+                    if(iconUrl===null){
+                        iconUrl = "https://i.imgur.com/gg8LwxU.jpg";
+                    }
+                    if(doc.id===props.uid){
+                        setUser({userName:doc.data().userName,
+                                highScore:doc.data().highScore,
+                                iconURL:iconUrl});
+                    }
+                    data_retrieve.push({userName:doc.data().userName,
+                            highScore:doc.data().highScore,
+                            iconURL:iconUrl});
+                });
+                if(data!=data_retrieve)
+                    setData(data_retrieve);
+            });
+        return ()=>{isSubscriber=false};
+    });
     const sort = (data) => {
         const sorted = data && data.sort((item1, item2) => {
             return item2.highScore - item1.highScore;
@@ -20,20 +49,25 @@ export default function LeaderBoard(props){
     }
     function renderHeader() {
         return (
-            <View colors={[, '#1da2c6', '#1695b7']}
-                style={{ backgroundColor: '#119abf', padding: 15, paddingTop: 35, alignItems: 'center' }}>
-                <Text style={{ fontSize: 25, color: 'white', }}>Leaderboard</Text>
+            <View
+                style={{backgroundColor: 'black', padding: 15, paddingTop: 65, alignItems: 'center' }}>
+                <Text style={{ fontSize: 25, color: 'white',fontWeight:'400' }}>Leaderboard</Text>
+                <TouchableHighlight style={styles.exitButton}
+                    onPress={()=>props.setNav(UNSET)}
+                    underlayColor={'#68a0ff'}>
+                    <Text style={styles.buttonText}>Back</Text>
+                </TouchableHighlight>
                 <View style={{
                     flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                     marginBottom: 15, marginTop: 20
                 }}>
-                    <Text style={{ color: 'white', fontSize: 25, flex: 1, textAlign: 'right', marginRight: 40 }}>
+                    <Text style={{ color: 'white', fontSize: 25, flex: 1, textAlign: 'right', marginRight: 40,fontWeight:'400' }}>
                         {ordinal_suffix_of(userRank)}
                     </Text>
-                    <Image style={{ flex: .66, height: 60, width: 60, borderRadius: 60 / 2 }}
-                        source={{ uri: props.userProfile }} />
-                    <Text style={{ color: 'white', fontSize: 25, flex: 1, marginLeft: 40 }}>
-                        {user.highScore}pts
+                    <Image style={{ flex: 0.5, height: 60, width: 60, borderRadius: 30,borderWidth:2,borderColor:'white' }}
+                        source={{ uri: user.iconURL}} />
+                    <Text style={{ color: 'white', fontSize: 25, flex: 1, marginLeft: 40,fontWeight:'400'}}>
+                        {user.highScore} pts
                     </Text>
                 </View>
             </View>
@@ -43,7 +77,7 @@ export default function LeaderBoard(props){
         labelBy: 'userName',
         sortBy: 'highScore',
         data:  data,
-        icon: 'iconUrl',
+        icon: 'iconURL',
         sort: sort
     }
     return (
@@ -53,6 +87,25 @@ export default function LeaderBoard(props){
         </View>
     );
 }
+const styles = StyleSheet.create({
+    exitButton : {
+        position:'absolute',
+        margin:10,
+        right:0,
+        height: 45,
+        width: 90,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius: 30,
+        borderWidth: 2,
+        borderColor: 'white',
+    },
+    buttonText: {
+        fontSize: 15,
+        fontWeight: '400',
+        color: "white",
+    },
+});
 const ordinal_suffix_of = (i) => {
     var j = i % 10,
         k = i % 100;

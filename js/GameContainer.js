@@ -82,25 +82,28 @@ export default function GameContainer(props){
         />
     );
   }
-  async function submitScore(){
-    const user_data = await firestore()
-                            .collection('users')
-                            .doc(props.uid)
-                            .get()
-                            .then(documentSnapshot=>{
-                              console.log('User exists: ', documentSnapshot.exists);
-                              if (documentSnapshot.exists) {
-                                console.log('User data: ', documentSnapshot.data());
-                              }
-                            });
-    firestore().collection('users').doc(props.uid).set({userName:props.userName,
-                                                        highScore:score,
-                                                        iconURL:props.userProfile})
-                                                  .then(()=>props._getExperienceButtonOnPress(UNSET))
-                                                  .catch((error)=>{
-                                                    console.log(error);
-                                                    props._getExperienceButtonOnPress(UNSET);
-                                                  });
+  function submitScore(){
+    const docRef = firestore().collection('users').doc(props.uid);
+    firestore().runTransaction(async transaction => {
+      const doc = await transaction
+      .get(docRef);
+      if(doc){
+        const newHighScore = Math.max(score,doc.data().highScore);
+        transaction.update(docRef,{
+          highScore:newHighScore
+        });
+        return newHighScore;
+      }
+      return -1;
+    })
+    .then(newHighScore=>{
+      console.log("new high score updated to "+newHighScore);
+      props._getExperienceButtonOnPress(UNSET);
+    })
+    .catch((error)=>{
+      console.log(error);
+      props._getExperienceButtonOnPress(UNSET);
+    });
   }
   return (
       <>
