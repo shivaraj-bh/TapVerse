@@ -3,7 +3,7 @@
 2) Run ***react-native run-android***
 
 # INFO
-1) After linking react-native firebase google sign in option viro media testbed does not work, alternative is to either generate bundle using the command below and run using android studio or ***react-native run-android --variant=<debug variant>***
+1) After linking react-native firebase google sign in option viro media testbed does not work, alternative is to either generate bundle using the command below and run using android studio or ***react-native run-android --variant={debug variant}***
 2) debug variant for this app is ***gvrDebug***
 3) Run the metro bundler, using react-native start, before running "react-native run-android --variant=gvrDebug"
 
@@ -13,7 +13,7 @@ To generate the index bundle file to run the app on android studio<br>
 
 
 # TODO: 
-***[done]*** 1) Make a scorecard and set score as a state variable for scorecard <br>
+***[done]*** 1) Make a scorecard and set score as a state variable for scorecard
 ***[done]*** 2) Replace the multiple viro sounds that you are adding with each object with just one speaker, to reduce the number of components being mounted<br>
 ***[noted]*** 3) Remove drawable and raw folder from android/app/src/main/res<br>
 ***[done]*** 4) Change App.js code for sign in page after checking the bookmark from your chrome <br>
