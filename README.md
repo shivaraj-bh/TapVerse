@@ -31,7 +31,7 @@ To generate the index bundle file to run the app on android studio<br>
 ***[done]*** 16) Retrive data from firestore and display it on leaderboard<br><br>
 ***[done]*** 17) Check why the setFirestoreData is being called thrice when the app starts, which means the main menu is being rendered thrice (I am not sure why).<br><br>
 18) Check when will a component unmount, because the last time I was trying to stop a song from playing when I am not playing the game anymore, it wasn't working.<br><br>
-19) Leaderboard is fetching data from the firestore several times when called once because of re-rendering, try to fix that. (Because of firestore sending documents indefinetely while onSnapshot is used, we can try react.memo some how to stop re-rendering of leaderboard several times) <br><br>
+19) Leaderboard is fetching data from the firestore several times when called once because of re-rendering, try to fix that. (Because of firestore sending documents indefinetely while onSnapshot is used, we can try react.memo to stop re-rendering of leaderboard several times) <br><br>
 
 # Future TODO
 1) Don't load the sound files on every re-render (prolly make them global, 'cause they are not going to be changed at any point)<br><br>
