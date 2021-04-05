@@ -13,8 +13,8 @@ To generate the index bundle file to run the app on android studio<br>
 
 
 # TODO: 
-***[done]*** 1) Make a scorecard and set score as a state variable for scorecard
-***[done]*** 2) Replace the multiple viro sounds that you are adding with each object with just one speaker, to reduce the number of components being mounted<br>
+***[done]*** 1) Make a scorecard and set score as a state variable for scorecard <br><br>
+***[done]*** 2) Replace the multiple viro sounds that you are adding with each object with just one speaker, to reduce the number of components being mounted<br><br>
 ***[noted]*** 3) Remove drawable and raw folder from android/app/src/main/res<br>
 ***[done]*** 4) Change App.js code for sign in page after checking the bookmark from your chrome <br>
 ***[done]*** 5) Add a exit button in the game screen<br>
