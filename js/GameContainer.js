@@ -1,5 +1,5 @@
 'use strict';
-import React,{useState,useCallback, useEffect} from 'react';
+import React,{useState} from 'react';
 import {
     StyleSheet,
     View,
@@ -10,10 +10,23 @@ import {
 import {ViroVRSceneNavigator} from 'react-viro';
 import CountDown from 'react-native-countdown-component';
 import firestore from '@react-native-firebase/firestore';
+import GameIntro from './GameIntro';
+import AsyncStorage from '@react-native-community/async-storage';
 var InitialVRScene = require('./Game');
 var Sound = require('react-native-sound');
 var UNSET = "UNSET";
 const styles = StyleSheet.create({
+  body: {
+    backgroundColor: "white",
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  sectionTitle: {
+    fontSize: 40,
+    fontWeight: '600',
+    color: "black",
+  },
   exitButton : {
       height: 55,
       width: 100,
@@ -50,6 +63,13 @@ const styles = StyleSheet.create({
       justifyContent:'space-around',
       flexDirection:'row'
   },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 20,
+    fontStyle:'italic',
+    fontWeight: '300',
+    color: "black",
+  },
 });
 let PlaySound = (filename)=>{
   Sound.setCategory('Playback');
@@ -67,8 +87,31 @@ let PlaySound = (filename)=>{
   clickTrack.setVolume(1);
   clickTrack.release();
 }
+function LoadScreen(){
+  return(
+    <>
+      <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
+        <View style={styles.body}>
+          <Text style={styles.sectionTitle}>
+            TapVerse
+          </Text>
+          <Text style={styles.sectionDescription}>
+              Loading...
+            </Text>
+        </View>
+    </>);
+}
 export default function GameContainer(props){
   const [score,setScore] = useState(0);
+  const [gameIntro,setGameIntro] = useState(0);
+  AsyncStorage.getItem('first_time').then((value)=>{
+    if(value!=null){
+      setGameIntro(1);
+    }else{
+      setGameIntro(2);
+    }
+  });
+  console.log("rendered");
   function handleClick(){
       PlaySound('game3');
       setScore(score+1);
@@ -105,37 +148,49 @@ export default function GameContainer(props){
       props._getExperienceButtonOnPress(UNSET);
     });
   }
-  return (
-      <>
-        <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
-        <View style={{flex:1}}>
-          {_getVRNavigator()}
-          <View style={styles.timer}>
-            <CountDown
-              size={20}
-              until={60}
-              onFinish={() => {submitScore();}}
-              digitStyle={{borderWidth: 2, borderColor: 'black'}}
-              digitTxtStyle={{color: 'black'}}
-              timeLabelStyle={{color: 'black', fontWeight: 'bold'}}
-              separatorStyle={{color: 'black'}}
-              timeToShow={['M', 'S']}
-              timeLabels={{m: null, s: null}}
-              showSeparator/>
-            <TouchableHighlight
-              style={styles.scoreContainer}
-              underlayColor={'#68a0ff'}>
-              <Text style={styles.scoreText}>
-                {score}
-              </Text>
-            </TouchableHighlight>
-                
-            <TouchableHighlight style={styles.exitButton}
-              onPress={()=>props._getExperienceButtonOnPress(UNSET)}
-              underlayColor={'#68a0ff'}>
-              <Text style={styles.buttonText}>Exit</Text>
-            </TouchableHighlight>  
-          </View>   
-      </View>
-    </>);
+  function startGame(){
+    AsyncStorage.setItem('first_time','true').then(()=>{
+      setGameIntro(1);
+    });
+  }
+  if(gameIntro==0){
+    return LoadScreen();
+  }
+  else if(gameIntro==2){
+    return <GameIntro startGame = {()=>startGame()}/>
+  }else{
+    return (
+        <>
+          <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
+          <View style={{flex:1}}>
+            {_getVRNavigator()}
+            <View style={styles.timer}>
+              <CountDown
+                size={20}
+                until={60}
+                onFinish={() => {submitScore();}}
+                digitStyle={{borderWidth: 2, borderColor: 'black'}}
+                digitTxtStyle={{color: 'black'}}
+                timeLabelStyle={{color: 'black', fontWeight: 'bold'}}
+                separatorStyle={{color: 'black'}}
+                timeToShow={['M', 'S']}
+                timeLabels={{m: null, s: null}}
+                showSeparator/>
+              <TouchableHighlight
+                style={styles.scoreContainer}
+                underlayColor={'#68a0ff'}>
+                <Text style={styles.scoreText}>
+                  {score}
+                </Text>
+              </TouchableHighlight>
+                  
+              <TouchableHighlight style={styles.exitButton}
+                onPress={()=>props._getExperienceButtonOnPress(UNSET)}
+                underlayColor={'#68a0ff'}>
+                <Text style={styles.buttonText}>Exit</Text>
+              </TouchableHighlight>  
+            </View>   
+        </View>
+      </>);
+  }
 }

@@ -166,6 +166,9 @@ android {
 }
 
 dependencies {
+    implementation project(':@react-native-community_async-storage')
+    implementation 'com.facebook.fresco:fresco:1.+'
+    implementation 'com.facebook.fresco:animated-gif:1.+'
     implementation project(':@react-native-firebase_firestore')
     implementation project(':react-native-sound')
     implementation project(path: ":@react-native-firebase_auth")

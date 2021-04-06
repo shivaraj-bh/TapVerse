@@ -30,12 +30,15 @@ To generate the index bundle file to run the app on android studio<br>
 15) Use react-native-pages to implement pages in the leaderboard<br><br>
 ***[done]*** 16) Retrive data from firestore and display it on leaderboard<br><br>
 ***[done]*** 17) Check why the setFirestoreData is being called thrice when the app starts, which means the main menu is being rendered thrice (I am not sure why).<br><br>
-18) Check when will a component unmount, because the last time I was trying to stop a song from playing when I am not playing the game anymore, it wasn't working.<br><br>
+***[done]** 18) Check when will a component unmount, because the last time I was trying to stop a song from playing when I am not playing the game anymore, it wasn't working.<br><br>
 ***[done]*** 19) Leaderboard is fetching data from the firestore several times when called once because of re-rendering, try to fix that. (Because of firestore sending documents indefinetely while onSnapshot is used, we can try react.memo to stop re-rendering of leaderboard several times) <br><br>
+20) Create a single js file for LoadScreen component and reuse it in game container and main app.
+21) Try to create a function to get the userrank from the cloud instead of sorting the data on the client end and finding the rank.
 
 # Future TODO
 1) Don't load the sound files on every re-render (prolly make them global, 'cause they are not going to be changed at any point)<br><br>
 
 # Solutions to TODO queries
-17) I was setting the state variables loggedIn and User seperately due to which there were two extra renderings, I fixed that by having one state variable. This bought down the number of re-renderings to 2, but I am still not sure why there is an extra render even though I am setting the state only once, will update once I find the solution.<br><br>
+17) I was setting the state variables loggedIn and User seperately due to which there were two extra renderings, I fixed that by having one state variable. This bought down the number of re-renderings to 2, once in the initial load before the user data has been set and once after setting the user data (because fetching user data is a asynchronous task which will not interfere with the rendering).<br><br>
+18) A component will unmount if it is no longer visible on the screen and all the subscriptions registered in the component have to be unregistered or not executed when the component is unmounted because otherwise it will throw an error.
 19) Got a temporary fix to the problem by retreiving the data every 1 second and only updating if there is a change in the data, this can be problamatic if the data grows and hence pagination is required so that you only have to keep checking for updates in the current page and not in the whole data.

@@ -43,6 +43,7 @@
 		B5B2F498BF7A49FE83753213 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C242A312BEE4DD3BFC44A70 /* libRNGoogleSignin.a */; };
 		12D5C867C7FF4D9CB355B761 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE05E130124C4F2F9337BB85 /* libRNSound.a */; };
 		01327E09A0DE4DB9BC6D1048 /* libRNFBFirestore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 554C233F0E024ABA8BB901D2 /* libRNFBFirestore.a */; };
+		E3F22D6664E142ECBB78761D /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 849F87D2120149EE9F997F07 /* libRNCAsyncStorage.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -356,6 +357,8 @@
 		BE05E130124C4F2F9337BB85 /* libRNSound.a */ = {isa = PBXFileReference; name = "libRNSound.a"; path = "libRNSound.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		3DC02DEF74AC474595F140DF /* RNFBFirestore.xcodeproj */ = {isa = PBXFileReference; name = "RNFBFirestore.xcodeproj"; path = "../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		554C233F0E024ABA8BB901D2 /* libRNFBFirestore.a */ = {isa = PBXFileReference; name = "libRNFBFirestore.a"; path = "libRNFBFirestore.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		039675F1AA4841CBBE54BA67 /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; name = "RNCAsyncStorage.xcodeproj"; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		849F87D2120149EE9F997F07 /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; name = "libRNCAsyncStorage.a"; path = "libRNCAsyncStorage.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,6 +390,7 @@
 				B5B2F498BF7A49FE83753213 /* libRNGoogleSignin.a in Frameworks */,
 				12D5C867C7FF4D9CB355B761 /* libRNSound.a in Frameworks */,
 				01327E09A0DE4DB9BC6D1048 /* libRNFBFirestore.a in Frameworks */,
+				E3F22D6664E142ECBB78761D /* libRNCAsyncStorage.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,6 +583,7 @@
 				403743A789634098926B60D1 /* RNGoogleSignin.xcodeproj */,
 				39508A7122A64A4FB4AC1D64 /* RNSound.xcodeproj */,
 				3DC02DEF74AC474595F140DF /* RNFBFirestore.xcodeproj */,
+				039675F1AA4841CBBE54BA67 /* RNCAsyncStorage.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1208,12 +1213,14 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
 				);
 			};
 			name = Debug;
@@ -1237,12 +1244,14 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
 				);
 			};
 			name = Release;
@@ -1268,6 +1277,7 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
 				);
 			};
 			name = Debug;
@@ -1292,6 +1302,7 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
 				);
 			};
 			name = Release;
@@ -1323,12 +1334,14 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
 				);
 			};
 			name = Debug;
@@ -1360,12 +1373,14 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
 				);
 			};
 			name = Release;
@@ -1396,12 +1411,14 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
 				);
 			};
 			name = Debug;
@@ -1432,12 +1449,14 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/@react-native-firebase/firestore/ios/RNFBFirestore",
+					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios/**",
 				);
 			};
 			name = Release;

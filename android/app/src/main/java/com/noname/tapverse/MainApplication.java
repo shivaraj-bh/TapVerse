@@ -3,6 +3,7 @@ package com.noname.tapverse;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AsyncStoragePackage(),
             new ReactNativeFirebaseFirestorePackage(),
             new RNSoundPackage(),
             new RNGoogleSigninPackage(),

@@ -21,6 +21,9 @@ function LoadScreen(){
           <Text style={styles.sectionTitle}>
             TapVerse
           </Text>
+          <Text style={styles.sectionDescription}>
+              Loading...
+            </Text>
         </View>
     </>);
 }
