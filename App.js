@@ -13,20 +13,7 @@ import {
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Menu from './js/Menu';
-function LoadScreen(){
-  return(
-    <>
-      <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
-        <View style={styles.body}>
-          <Text style={styles.sectionTitle}>
-            TapVerse
-          </Text>
-          <Text style={styles.sectionDescription}>
-              Loading...
-            </Text>
-        </View>
-    </>);
-}
+import LoadingScreen from './js/LoadingScreen';
 export default () => {
   let isSubscriber = true;
   const [user, setUser] = useState({user:null,loggedIn:0});
@@ -109,7 +96,7 @@ export default () => {
     }
   };
   if(user.loggedIn==0){
-    return (<LoadScreen/>);
+    return (<LoadingScreen/>);
   }else if(user.loggedIn==1){
     return ( 
       <>

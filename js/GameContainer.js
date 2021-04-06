@@ -12,21 +12,11 @@ import CountDown from 'react-native-countdown-component';
 import firestore from '@react-native-firebase/firestore';
 import GameIntro from './GameIntro';
 import AsyncStorage from '@react-native-community/async-storage';
+import LoadingScreen from './LoadingScreen';
 var InitialVRScene = require('./Game');
 var Sound = require('react-native-sound');
 var UNSET = "UNSET";
 const styles = StyleSheet.create({
-  body: {
-    backgroundColor: "white",
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center'
-  },
-  sectionTitle: {
-    fontSize: 40,
-    fontWeight: '600',
-    color: "black",
-  },
   exitButton : {
       height: 55,
       width: 100,
@@ -53,8 +43,7 @@ const styles = StyleSheet.create({
       borderColor: 'black',
       borderRadius:10,
       justifyContent:'center',
-      alignItems:'center'
-      
+      alignItems:'center'  
   },
   timer:{
       position:'absolute',
@@ -62,13 +51,6 @@ const styles = StyleSheet.create({
       width:"100%",
       justifyContent:'space-around',
       flexDirection:'row'
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 20,
-    fontStyle:'italic',
-    fontWeight: '300',
-    color: "black",
   },
 });
 let PlaySound = (filename)=>{
@@ -86,20 +68,6 @@ let PlaySound = (filename)=>{
   }); 
   clickTrack.setVolume(1);
   clickTrack.release();
-}
-function LoadScreen(){
-  return(
-    <>
-      <StatusBar barStyle="dark-content" showHideTransition="slide" hidden={true} />
-        <View style={styles.body}>
-          <Text style={styles.sectionTitle}>
-            TapVerse
-          </Text>
-          <Text style={styles.sectionDescription}>
-              Loading...
-            </Text>
-        </View>
-    </>);
 }
 export default function GameContainer(props){
   const [score,setScore] = useState(0);
@@ -154,7 +122,7 @@ export default function GameContainer(props){
     });
   }
   if(gameIntro==0){
-    return LoadScreen();
+    return <LoadingScreen/>;
   }
   else if(gameIntro==2){
     return <GameIntro startGame = {()=>startGame()}/>
