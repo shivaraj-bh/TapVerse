@@ -10,9 +10,40 @@ export default function LeaderBoard(props){
     console.log("Re-rendered",count);
     let isSubscriber = true;
     const [data,setData] = useState([]);
-    const [userRank,setUserRank] = useState(1);
-    const [user,setUser] = useState({userName:props.userName,highScore:-1,iconURL:"https://i.imgur.com/gg8LwxU.jpg"})
+    const [user,setUser] = useState({userName:props.userName,
+        highScore:-1,
+        iconURL:"https://i.imgur.com/gg8LwxU.jpg",
+        userRank:1
+    })
     useEffect(()=>{
+        firestore()
+            .collection('users')
+            .doc(props.uid)
+            .get()
+            .then(doc=>{
+                console.log("some data",doc.data());
+                firestore()
+                    .collection('users')
+                    .doc('scores')
+                    .get()
+                    .then(doc1=>{
+                        console.log("some other data",doc1.data());
+                        let reversedIndex = [...doc1.data().reversedIndex];
+                        const userScore = doc.data().highScore;
+                        const userRank = reversedIndex.slice(userScore+1,200).reduce((a,b)=>a+b,0)+1;
+                        let iconUrl = doc.data().iconURL;
+                        if(iconUrl==null){
+                            iconUrl = "https://i.imgur.com/gg8LwxU.jpg";
+                        }
+                        const userData = {userName:doc.data().userName,
+                            highScore:doc.data().highScore,
+                            iconURL:iconUrl,
+                            userRank:userRank,
+                        };
+                        if(JSON.stringify(user)!=JSON.stringify(userData))
+                            setUser(userData);
+                    });
+            });
         const data_collect = setTimeout(()=>firestore()
             .collection('users')
             .orderBy('highScore',"desc")
@@ -21,14 +52,8 @@ export default function LeaderBoard(props){
                 const data_retrieve = [];
                 docSnap.forEach((doc)=>{
                     let iconUrl = doc.data().iconURL;
-                    if(iconUrl===null){
+                    if(iconUrl==null){
                         iconUrl = "https://i.imgur.com/gg8LwxU.jpg";
-                    }
-                    if(doc.id===props.uid){
-                        if(user.highScore!=doc.data().highScore)
-                            setUser({userName:doc.data().userName,
-                                    highScore:doc.data().highScore,
-                                    iconURL:iconUrl});
                     }
                     data_retrieve.push({userName:doc.data().userName,
                             highScore:doc.data().highScore,
@@ -36,19 +61,9 @@ export default function LeaderBoard(props){
                 });
                 if(JSON.stringify(data)!=JSON.stringify(data_retrieve))
                     setData(data_retrieve);
-            }),1000);
+            }),100);
         return ()=>{isSubscriber=false;clearTimeout(data_collect)};
     },[data]);
-    const sort = (data) => {
-        const sorted = data && data.sort((item1, item2) => {
-            return item2.highScore - item1.highScore;
-        })
-        let userRank1 = sorted.findIndex((item) => {
-            return item.userName === user.userName;
-        })
-        setUserRank(userRank1+1);
-        return sorted;
-    }
     function renderHeader() {
         return (
             <View
@@ -64,7 +79,7 @@ export default function LeaderBoard(props){
                     marginBottom: 15, marginTop: 20
                 }}>
                     <Text style={{ color: 'white', fontSize: 25, flex: 1, textAlign: 'right', marginRight: 40,fontWeight:'400' }}>
-                        {ordinal_suffix_of(userRank)}
+                        {ordinal_suffix_of(user.userRank)}
                     </Text>
                     <Image style={{ flex: 0.5, height: 60, width: 60, borderRadius: 30,borderWidth:2,borderColor:'white' }}
                         source={{ uri: user.iconURL}} />
@@ -80,7 +95,6 @@ export default function LeaderBoard(props){
         sortBy: 'highScore',
         data:  data,
         icon: 'iconURL',
-        sort: sort
     }
     return (
         <View style={{ flex: 1, backgroundColor: 'white', }}>

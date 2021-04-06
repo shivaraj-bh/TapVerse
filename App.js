@@ -52,13 +52,14 @@ export default () => {
           .collection('users')
           .doc(user.user.uid)
           .set({userName:user.user.displayName,
-            highScore:-1,
+            highScore:0,
             iconURL:user.user.photoURL})
           .then(()=>console.log("initial data uploaded to firestore"))
           .catch((error)=>{
             console.log(error);
           });
         }else{
+          
           console.log('User data: ', documentSnapshot.data());
         }
       });
