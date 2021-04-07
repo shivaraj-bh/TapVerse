@@ -23,12 +23,12 @@ export default function LeaderBoard(props){
             .then(doc=>{
                 console.log("some data",doc.data());
                 firestore()
-                    .collection('users')
-                    .doc('scores')
+                    .collection('scores')
+                    .doc('reversedIndex')
                     .get()
                     .then(doc1=>{
                         console.log("some other data",doc1.data());
-                        let reversedIndex = [...doc1.data().reversedIndex];
+                        let reversedIndex = [...doc1.data().array];
                         const userScore = doc.data().highScore;
                         const userRank = reversedIndex.slice(userScore+1,200).reduce((a,b)=>a+b,0)+1;
                         let iconUrl = doc.data().iconURL;

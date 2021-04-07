@@ -34,7 +34,7 @@ To generate the index bundle file to run the app on android studio<br>
 ***[done]*** 19) Leaderboard is fetching data from the firestore several times when called once because of re-rendering, try to fix that. (Because of firestore sending documents indefinetely while onSnapshot is used, we can try react.memo to stop re-rendering of leaderboard several times) <br><br>
 ***[done]*** 20) Create a single js file for LoadScreen component and reuse it in game container and main app.<br><br>
 ***[done]*** 21) Try to create a function to get the userrank from the cloud instead of sorting the data on the client end and finding the rank.<br><br>
-22) Decrement the previous high score by 1 and increment the new high score by 1 in scores collection array
+***[done]*** 22) Decrement the previous high score by 1 and increment the new high score by 1 in scores collection array
 
 # Future TODO
 1) Don't load the sound files on every re-render (prolly make them global, 'cause they are not going to be changed at any point)<br><br>

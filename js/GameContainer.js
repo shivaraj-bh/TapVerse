@@ -96,12 +96,29 @@ export default function GameContainer(props){
   function submitScore(){
     const docRef = firestore().collection('users').doc(props.uid);
     firestore().runTransaction(async transaction => {
-      const doc = await transaction
-      .get(docRef);
+      const doc = await transaction.get(docRef);
       if(doc){
         const newHighScore = Math.max(score,doc.data().highScore);
         transaction.update(docRef,{
           highScore:newHighScore
+        });
+        const docRef1 = firestore().collection('scores').doc("reversedIndex");
+        firestore().runTransaction(async transaction1 => {
+          const doc1 = await transaction1.get(docRef1);
+          if(doc1){
+            let array = doc1.data().array; 
+            array[doc.data().highScore]-=1;
+            array[newHighScore]+=1
+            transaction1.update(docRef1,{
+              array:array
+            });
+          }
+        })
+        .then(()=>{
+          console.log("updated scores array")
+        })
+        .catch((error)=>{
+          console.log(error);
         });
         return newHighScore;
       }
@@ -115,6 +132,7 @@ export default function GameContainer(props){
       console.log(error);
       props._getExperienceButtonOnPress(UNSET);
     });
+    
   }
   function startGame(){
     AsyncStorage.setItem('first_time','true').then(()=>{
