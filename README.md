@@ -43,6 +43,7 @@ To generate the index bundle file to run the app on android studio<br>
 17) I was setting the state variables loggedIn and User seperately due to which there were two extra renderings, I fixed that by having one state variable. This bought down the number of re-renderings to 2, once in the initial load before the user data has been set and once after setting the user data (because fetching user data is a asynchronous task which will not interfere with the rendering).<br><br>
 18) A component will unmount if it is no longer visible on the screen and all the subscriptions registered in the component have to be unregistered or not executed when the component is unmounted because otherwise it will throw an error.<br><br>
 19) Got a temporary fix to the problem by retreiving the data every 1 second and only updating if there is a change in the data, this can be problamatic if the data grows and hence pagination is required so that you only have to keep checking for updates in the current page and not in the whole data.<br><br>
+20) The score on the leaderboard does not match what is displayed when the game is over, prolly submitscore() function is being called before the game is over. <br><br>
 
 # Sidenotes for TODO
 21) Instead of creating cloud function, I created a collection in firestore that will store the reverseIndexed array to determine the userrank in real-time.

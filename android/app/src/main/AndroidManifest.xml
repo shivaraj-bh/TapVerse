@@ -3,7 +3,8 @@
     package="com.noname.tapverse">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
+    <uses-permission tools:node="remove" android:name="android.permission.RECORD_AUDIO"/>
 
     <application
       android:name=".MainApplication"
@@ -27,6 +28,7 @@
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
       <meta-data android:name="com.google.ar.core" android:value="optional" />
+      <meta-data tools:replace="android:value" android:name="com.google.ar.core.min_apk_version" android:value="23" />
     </application>
 
 </manifest>
